@@ -58,14 +58,19 @@ function executeRestAPI() {
             var header = getResponseHeaderMap(this)
             var status_msg = "HTTP/1.1 " + this.status + " " + this.statusText
             var success = true
+            
             t.step_func(function() {
-                success = isGetSuccessResponseForHTTPS(response_data.data)
+                for (var temp_response_data of response_data.data) {
+                    if (isGetSuccessResponseForHTTPS(temp_response_data) === false) {
+                        success = false
+                    }
+                }
                 if (success) {
                     //assert_true(true, "Get response received. value = " + response_data.data.dp.value);
-                    
                     helper_terminate_success_for_https("Get response received. ", status_msg, header, response_data);
                 } else {
-                    helper_terminate_failure("Get method failed");
+                    status_msg = "HTTP/1.1 " + response_data["Error Code"]
+                    helper_terminate_failure_for_https("No match for path in tree.",status_msg, header, response_data);
                 }
             })();
         }
@@ -74,10 +79,10 @@ function executeRestAPI() {
     let request = "GET"
     let protocol = "http"
     let host = "127.0.0.1:8000"
-    let path =  "Vehicle/Speed"
+    let path =  "Vehicle/Cabin/Door"
     let url = protocol + "://" + host + "/" + path
     let header = {}
-    let params =''
+    let params = "filter={\"op-type\":\"paths\", \"op-value\":\"*/*/IsOpen\"}";
     if (params.length > 0){
         console.log(params.length)
         url = url+"?"+params
@@ -87,7 +92,6 @@ function executeRestAPI() {
     xhttp.open(request, url, true);
     xhttp.send();
 }
-
 
 var t = async_test("Get success case");
 

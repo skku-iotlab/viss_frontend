@@ -59,22 +59,22 @@ function executeRestAPI() {
             var status_msg = "HTTP/1.1 " + this.status + " " + this.statusText
             var success = true
             t.step_func(function() {
-                success = isGetSuccessResponseForHTTPS(response_data.data)
+
+                success = isGetFailureResponseForHTTPS(response_data)
                 if (success) {
-                    //assert_true(true, "Get response received. value = " + response_data.data.dp.value);
-                    
                     helper_terminate_success_for_https("Get response received. ", status_msg, header, response_data);
                 } else {
-                    helper_terminate_failure("Get method failed");
+                    var status_msg = "HTTP/1.1 " + response_data["Error Code"]
+                    helper_terminate_failure_for_https("No match for path in tree.", status_msg, header, response_data);
                 }
             })();
         }
     };
     // REST API 
-    let request = "GET"
+    let request = "POST"
     let protocol = "http"
     let host = "127.0.0.1:8000"
-    let path =  "Vehicle/Powertrain/Transmission/PerformanceMode"
+    let path =  "Vehicle/Powertrain/Transmission/PerformanceMode_fail_test"
     let url = protocol + "://" + host + "/" + path
     let header = {}
     let params =''
@@ -83,9 +83,13 @@ function executeRestAPI() {
         url = url+"?"+params
         path = path+"?"+params
     }
-    addLogRequestMessageForHTTPS(request + " /" + path + " HTTP/1.1", host,  header)
+    let data = new FormData();
+    data.append('value', 'sport');
+    let dict_data = {'value': 'sport'}
+
+    addLogRequestMessageForHTTPS(request + " /" + path + " HTTP/1.1", host,  header, dict_data)
     xhttp.open(request, url, true);
-    xhttp.send();
+    xhttp.send(data);
 }
 
 

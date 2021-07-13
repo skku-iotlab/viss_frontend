@@ -1,0 +1,108 @@
+<!DOCTYPE HTML>
+<meta charset="utf-8">
+<title>
+[0130: get signals and data with a valid request without wildcards]
+</title>
+<link rel="help" href="https://www.w3.org/TR/vehicle-information-service/#idl-def-getrequest">
+<link rel="stylesheet" type="text/css" href="/css/style-general.css">
+
+<script src="/js/testharness.js"></script>
+<script src="/js/testharnessreport.js"></script>
+<script src="/js/vehicle-test-config.js"></script>
+<script src="/js/vehicle-test-helper.js"></script>
+
+<div id="test-title">
+[0130: get signals and data without wildcards for HTTPS]
+</div>
+<br>
+<div id="test-assertion">
+<b>Test assertion:</b><br>
+When the client makes a request with a correct 'get' action<br>
+ without wildcards to the server,<br>
+ a JSON data object defined as 'getSuccessResponseForHTTPS' is returned.<br>
+</div>
+<div id="scenario">
+<br>
+<b>Test Scenario:</b><br>
+1. Execute 'get' method specifing a data path.<br>
+   (e.g. 'Vehicle/Speed')<br>
+2. Confirm 'GetSuccessResponseForHTTPS'.<br>
+<br>
+<b>Expected Result:</b><br>
+- Received a response containing the requested value(s) and a ts (i.e., timestamp). <br>
+</div>
+
+<div id="result"></div>
+<br>
+<div id="log"></div>
+
+<script>
+
+function getResponseHeaderMap(xhr) {
+    const headers = {};
+    xhr.getAllResponseHeaders()
+        .trim()
+        .split(/[\r\n]+/)
+        .map(value => value.split(/: /))
+        .forEach(keyValue => {
+            headers[keyValue[0].trim()] = keyValue[1].trim();
+        });
+    return headers;
+}
+
+function executeRestAPI() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            var response_data = JSON.parse(this.response);
+            var header = getResponseHeaderMap(this)
+            var status_msg = "HTTP/1.1 " + this.status + " " + this.statusText
+            var success = true
+            
+            console.log(response_data)
+            t.step_func(function() {
+                if(!isGetFailureResponseForHTTPS(response_data)){
+                    success=false
+                }else{
+                    for (var temp_response_data of response_data.data) {
+                        console.log(temp_response_data)
+                        if (isGetSuccessResponseForHTTPS(temp_response_data) === false) {
+                            success = false
+                        }
+                    }
+                }
+                
+                if (success) {
+                    //assert_true(true, "Get response received. value = " + response_data.data.dp.value);
+                    helper_terminate_success_for_https("Get response received. ", status_msg, header, response_data);
+                } else {
+                    var status_msg = "HTTP/1.1 " + response_data["Error Code"]
+                    helper_terminate_failure_for_https("No match for path in tree.",status_msg, header, response_data);
+                }
+            })();
+        }
+    };
+    // REST API 
+    let request = "GET"
+    let protocol = "http"
+    let host = "127.0.0.1:8000"
+    let path =  "Vehicle/Cabin/Door"
+    let url = protocol + "://" + host + "/" + path
+    let header = {}
+    let params = "filter={\"op-type\":\"paths\", \"op-value\":\"*/*/*/IsOpen\"}";
+    if (params.length > 0){
+        console.log(params.length)
+        url = url+"?"+params
+        path = path+"?"+params
+    }
+    addLogRequestMessageForHTTPS(request + " /" + path + " HTTP/1.1", host,  header)
+    xhttp.open(request, url, true);
+    xhttp.send();
+}
+
+var t = async_test("Get success case");
+
+executeRestAPI()
+
+</script>
+</html>

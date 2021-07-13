@@ -133,6 +133,20 @@ function isGetSuccessResponseForHTTPS(_inJson) {
 }
 ////////////////////////////////////////////////////////////////////
 
+////////////////////////////////////////////////////////////////////
+function isGetFailureResponseForHTTPS(_inJson) {
+  // TODO: better to check with Json schema
+  // getSuccessResponse has action?
+  // console.log(_inJson)
+  if ("Error Code" in _inJson){
+    return false
+  }else{
+    return true
+  }
+}
+////////////////////////////////////////////////////////////////////
+
+
 function isGetSuccessResponse( _reqId, _inJson) {
   // TODO: better to check with Json schema
   // getSuccessResponse has action?
@@ -369,6 +383,7 @@ function getTimestamp() {
 }
 
 function addLogMessage(_msg) {
+  console.log(_msg)
   msg = document.getElementById('log').innerHTML;
   msg = msg + "<br>" + _msg;
   document.getElementById('log').innerHTML = msg;
@@ -430,6 +445,37 @@ function addLogSuccessForHTTPS(_msg, _status_msg, _header, _data) {
 
   msg = msg
   + '<div style="font-size:20px; background-color:#00CC00;">'
+  + JSON.stringify(_data)
+  + '</div>';
+
+  document.getElementById('result').innerHTML = msg;
+}
+
+
+function addLogFailureForHTTPS(_msg, _status_msg, _header, _data) {
+  msg = document.getElementById('result').innerHTML;
+  // show message with green background
+  msg = msg + "<br>"
+        + '<div style="font-size:20px; background-color:red;">'
+        + "FAILURE : " + _msg
+        + '</div> <br>';
+
+  msg = msg
+  + '<div style="font-size:20px; background-color:red;">'
+  + 'Response:'  + '<br><br>'  
+  + _status_msg
+  + '</div>';
+
+  for (var key in _header) {
+    //console.log(key + ": " + _header[key])
+    msg = msg
+    + '<div style="font-size:20px; background-color:red;">'
+    + key + ": " + _header[key]
+    + '</div>';
+  }
+
+  msg = msg
+  + '<div style="font-size:20px; background-color:red;">'
   + JSON.stringify(_data)
   + '</div>';
 
@@ -498,6 +544,15 @@ function helper_terminate_success_for_https( _msg, _status_msg, _header, _data) 
   addLogSuccessForHTTPS( _msg, _status_msg, _header, _data );
   t.step_timeout(function() {
     assert_true(true, _msg);
+    t.done();
+  }, TIME_FINISH_WAIT); // wait time to let human read the result.
+}
+
+
+function helper_terminate_failure_for_https( _msg, _status_msg, _header, _data) {
+  addLogFailureForHTTPS( _msg, _status_msg, _header, _data );
+  t.step_timeout(function() {
+    assert_true(false, _msg);
     t.done();
   }, TIME_FINISH_WAIT); // wait time to let human read the result.
 }

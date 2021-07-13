@@ -60,16 +60,23 @@ function executeRestAPI() {
             var success = true
 
             t.step_func(function() {
-                for (var temp_response_data of response_data.data) {
-                    if (isGetSuccessResponseForHTTPS(temp_response_data) === false) {
-                        success = false
+                if(!isGetFailureResponseForHTTPS(response_data)){
+                    success=false
+                }else{
+                    for (var temp_response_data of response_data.data) {
+                        console.log(temp_response_data)
+                        if (isGetSuccessResponseForHTTPS(temp_response_data) === false) {
+                            success = false
+                        }
                     }
                 }
+                
                 if (success) {
                     //assert_true(true, "Get response received. value = " + response_data.data.dp.value);
                     helper_terminate_success_for_https("Get response received. ", status_msg, header, response_data);
                 } else {
-                    helper_terminate_failure("Get method failed");
+                    var status_msg = "HTTP/1.1 " + response_data["Error Code"]
+                    helper_terminate_failure_for_https("No match for path in tree.",status_msg, header, response_data);
                 }
             })();
         }
@@ -81,7 +88,7 @@ function executeRestAPI() {
     let path =  "Vehicle/Cabin/Door"
     let url = protocol + "://" + host + "/" + path
     let header = {}
-    let params = "filter={\"op-type\":\"paths\", \"op-value\":\"*/Left\"}";
+    let params = "filter={\"op-type\":\"paths\", \"op-value\":\"Row122\"}";
     if (params.length > 0){
         console.log(params.length)
         url = url+"?"+params
@@ -95,7 +102,6 @@ function executeRestAPI() {
 var t = async_test("Get success case");
 
 executeRestAPI()
-
 
 </script>
 </html>

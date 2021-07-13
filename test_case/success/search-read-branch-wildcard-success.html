@@ -65,6 +65,9 @@ function executeRestAPI() {
                         success = false
                     }
                 }
+                if ("Error Code" in response_data){
+                    success=false
+                }
                 if (success) {
                     //assert_true(true, "Get response received. value = " + response_data.data.dp.value);
                     helper_terminate_success_for_https("Get response received. ", status_msg, header, response_data);
@@ -81,7 +84,7 @@ function executeRestAPI() {
     let path =  "Vehicle/Cabin/Door"
     let url = protocol + "://" + host + "/" + path
     let header = {}
-    let params = "filter={\"op-type\":\"paths\", \"op-value\":\"*/*/IsOpen\"}";
+    let params = "filter={\"op-type\":\"paths\", \"op-value\":\"*/Left\"}";
     if (params.length > 0){
         console.log(params.length)
         url = url+"?"+params
@@ -95,6 +98,7 @@ function executeRestAPI() {
 var t = async_test("Get success case");
 
 executeRestAPI()
+
 
 </script>
 </html>
