@@ -88,11 +88,17 @@ function executeRestAPIWithAccessToken(access_token) {
                 success = isGetSuccessResponseForHTTPS(response_data.data)
                 if (success) {
                     //assert_true(true, "Get response received. value = " + response_data.data.dp.value);
+                    
                     helper_terminate_success_for_https("Get response received. ", status_msg, header, response_data);
                 } else {
                     helper_terminate_failure("Get method failed");
                 }
             })();
+        }else if(this.readyState==4 && this.status==401){
+            var response_data = JSON.parse(this.response)
+            var header = getResponseHeaderMap(this)
+            var status_msg = "HTTP/1.1 " + this.status + " " + this.statusText
+            helper_terminate_failure_for_https("No match for path in tree.", status_msg, header, response_data);
         }
     };
     // REST API 
@@ -102,7 +108,7 @@ function executeRestAPIWithAccessToken(access_token) {
     let path =  "Vehicle/AverageSpeed"
     let url = protocol + "://" + host + "/" + path
     let header = {}
-    header['Authorization'] = 'Bearer ' + access_token
+    header['Authorization'] = 'Bearer ' + access_token+"1"
     let params =''
     if (params.length > 0){
         console.log(params.length)

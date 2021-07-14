@@ -44,6 +44,17 @@ app.get('/authorized-read-success.html', function(req, res){
     })
 })
 
+app.get('/authorized-read-failure.html', function(req, res){
+    fs.readFile('test_case/failure/authorized-read-failure.html', function(error, data){
+        if(error) {
+            console.log(error)
+        }else {
+            res.writeHead(200, {'Content-Type': 'text/html'})
+            res.end(data)
+        }
+    })
+})
+
 app.get('/search-read-wildcard-success.html', function(req, res){
     fs.readFile('test_case/success/search-read-wildcard-success.html', function(error, data){
         if(error) {
