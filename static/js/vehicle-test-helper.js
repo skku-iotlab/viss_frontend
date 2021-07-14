@@ -150,11 +150,12 @@ function isGetFailureResponseForHTTPS(_inJson) {
 function isGetSuccessResponse( _reqId, _inJson) {
   // TODO: better to check with Json schema
   // getSuccessResponse has action?
+
   if (_inJson.action === "get" &&
-      _inJson.requestId &&
-      _inJson.timestamp &&      //'timestamp' exists
-      _inJson.value &&          //'value' exists
-      _inJson.error === undefined )           //'error' exists
+    'requestId' in _inJson &&
+    'ts' in _inJson.data.dp &&      //'timestamp' exists
+    'value' in _inJson.data.dp &&          //'value' exists
+    _inJson.error === undefined )          //'error' exists
   {
     if (_reqId === "" || _reqId === _inJson.requestId) {
       return true;
