@@ -78,6 +78,11 @@ function getAccessToken() {
 function executeRestAPIWithAccessToken(access_token) {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
+
+        console.log("this status : ")
+        console.log(this.status)
+
+
         if (this.readyState == 4 && this.status == 200) {
             var response_data = JSON.parse(this.response);
             var header = getResponseHeaderMap(this)
@@ -94,6 +99,9 @@ function executeRestAPIWithAccessToken(access_token) {
                     helper_terminate_failure("Get method failed");
                 }
             })();
+        }else if(this.status==401){
+            //auth error
+            helper_terminate_failure("Access token is invalid.")
         }
     };
     // REST API 
@@ -103,7 +111,7 @@ function executeRestAPIWithAccessToken(access_token) {
     let path =  "Vehicle/AverageSpeed"
     let url = protocol + "://" + host + "/" + path
     let header = {}
-    header['Authorization'] = 'Bearer ' + access_token
+    header['Authorization'] = 'Bearer ' + access_token+"1"
     let params =''
     if (params.length > 0){
         console.log(params.length)

@@ -65,9 +65,9 @@ function executeRestAPI() {
                         success = false
                     }
                 }
-                if ("Error Code" in response_data){
-                    success=false
-                }
+                // if ("Error Code" in response_data){
+                //     success=false
+                // }
                 if (success) {
                     //assert_true(true, "Get response received. value = " + response_data.data.dp.value);
                     helper_terminate_success_for_https("Get response received. ", status_msg, header, response_data);

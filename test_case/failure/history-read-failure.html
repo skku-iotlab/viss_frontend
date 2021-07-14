@@ -61,26 +61,20 @@ function executeRestAPI() {
             console.log(response_data)
 
             t.step_func(function() {
-                
-                if(!isGetFailureResponseForHTTPS(response_data)){
-                    success=false
-                }else{
-                    for (var temp_response_data of response_data.data) {
-                        console.log(temp_response_data)
-                        if (isGetSuccessResponseForHTTPS(temp_response_data) === false) {
-                            success = false
-                        }
-                    }
-                }
-                
+                success = isGetSuccessResponseForHTTPS(response_data.data)
                 if (success) {
                     //assert_true(true, "Get response received. value = " + response_data.data.dp.value);
                     helper_terminate_success_for_https("Get response received. ", status_msg, header, response_data);
                 } else {
-                    var status_msg = "HTTP/1.1 " + response_data["Error Code"]
-                    helper_terminate_failure_for_https("No match for path in tree.",status_msg, header, response_data);
+                    helper_terminate_failure("Get method failed");
                 }
             })();
+        }else if(this.readyState==4 && this.status==404){
+            var response_data = JSON.parse(this.response)
+            var header = getResponseHeaderMap(this)
+            var status_msg = "HTTP/1.1 " + this.status + " " + this.statusText
+            // console.log(response_data)
+            helper_terminate_failure_for_https("No match for path in tree.", status_msg, header, response_data);
         }
     };
     // REST API 
