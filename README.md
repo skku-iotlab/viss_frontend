@@ -2,6 +2,7 @@
 1. Run viss_frontend server
 
 ```
+$ cd viss_frontend
 $ node main.js
 ```
 
