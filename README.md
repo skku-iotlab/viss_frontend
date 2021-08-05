@@ -1,9 +1,9 @@
 
 1. Run viss_frontend server
 
-'''
+```
 $ node main.js
-'''
+```
 
 2. Verify test cases is working
 
