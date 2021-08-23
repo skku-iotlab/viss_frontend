@@ -2,14 +2,15 @@
 ** Vehicle API Test helper/utility functions
 */
 
+
 // === get helper ===
-function isAuthorizeSuccessResponse( _reqId, _inJson) {
+function isAuthorizeSuccessResponse(_reqId, _inJson) {
   // TODO: better to check with Json schema
   if (
-      _inJson.action === "authorize" &&
-      _inJson.requestId  &&
-      _inJson.TTL &&                //'TTL' exists
-      _inJson.error === undefined)  //'error' not exists
+    _inJson.action === "authorize" &&
+    _inJson.requestId &&
+    _inJson.TTL &&                //'TTL' exists
+    _inJson.error === undefined)  //'error' not exists
   {
     if (_reqId === "" || _reqId === _inJson.requestId) {
       return true;
@@ -20,13 +21,13 @@ function isAuthorizeSuccessResponse( _reqId, _inJson) {
     return false;
   }
 }
-function isAuthorizeErrorResponse( _reqId, _inJson) {
+function isAuthorizeErrorResponse(_reqId, _inJson) {
   // TODO: better to check with Json schema
   if (
-      _inJson.action === "authorize" &&
-      _inJson.requestId &&
-      _inJson.TTL === undefined &&  //'TTL' not exists
-      _inJson.error)                //'error' exists
+    _inJson.action === "authorize" &&
+    _inJson.requestId &&
+    _inJson.TTL === undefined &&  //'TTL' not exists
+    _inJson.error)                //'error' exists
   {
     if (_reqId === "" || _reqId === _inJson.requestId) {
       return true;
@@ -38,13 +39,13 @@ function isAuthorizeErrorResponse( _reqId, _inJson) {
   }
 }
 
-function isMetadataSuccessResponse( _reqId, _inJson) {
+function isMetadataSuccessResponse(_reqId, _inJson) {
   // TODO: better to check with Json schema
   if (
-      _inJson.action === "getMetadata" &&
-      _inJson.requestId &&
-      _inJson.metadata &&                //'TTL' exists
-      _inJson.error === undefined)  //'error' not exists
+    _inJson.action === "getMetadata" &&
+    _inJson.requestId &&
+    _inJson.metadata &&                //'TTL' exists
+    _inJson.error === undefined)  //'error' not exists
   {
     if (_reqId === "" || _reqId === _inJson.requestId) {
       return true;
@@ -55,13 +56,13 @@ function isMetadataSuccessResponse( _reqId, _inJson) {
     return false;
   }
 }
-function isMetadataErrorResponse( _reqId, _inJson) {
+function isMetadataErrorResponse(_reqId, _inJson) {
   // TODO: better to check with Json schema
   if (
-      _inJson.action === "getMetadata" &&
-      _inJson.requestId &&
-      _inJson.metadata === undefined &&  //'vss' not exists
-      _inJson.error)                //'error' exists
+    _inJson.action === "getMetadata" &&
+    _inJson.requestId &&
+    _inJson.metadata === undefined &&  //'vss' not exists
+    _inJson.error)                //'error' exists
   {
     if (_reqId === "" || _reqId === _inJson.requestId) {
       return true;
@@ -74,24 +75,24 @@ function isMetadataErrorResponse( _reqId, _inJson) {
 }
 
 function isGetSuccessResponseForServiceDiscoveryRead(_inJson) {
-  if ( 'metadata' in _inJson &&
-        'ts' in _inJson &&
-        _inJson.error === undefined )           //'error' exists
-    {
-      return true;
-    } else {
-      return false;
-    }
+  if ('metadata' in _inJson &&
+    'ts' in _inJson &&
+    _inJson.error === undefined)           //'error' exists
+  {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 function isSetSuccessResponseForHTTPS(_inJson) {
-  if (  'ts' in _inJson &&
-        _inJson.error === undefined )           //'error' exists
-    {
-      return true;
-    } else {
-      return false;
-    }
+  if ('ts' in _inJson &&
+    _inJson.error === undefined)           //'error' exists
+  {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 ////////////////////////////////////////////////////////////////////
@@ -99,29 +100,29 @@ function isGetSuccessResponseForHTTPS(_inJson) {
   // TODO: better to check with Json schema
   // getSuccessResponse has action?
   let success = true
-  if (Array.isArray(_inJson.dp) == false){
+  if (Array.isArray(_inJson.dp) == false) {
     if ('path' in _inJson &&
-        'ts' in _inJson.dp &&      //'timestamp' exists
-        'value' in _inJson.dp &&          //'value' exists
-        _inJson.error === undefined )           //'error' exists
+      'ts' in _inJson.dp &&      //'timestamp' exists
+      'value' in _inJson.dp &&          //'value' exists
+      _inJson.error === undefined)           //'error' exists
     {
       return true;
     } else {
       return false;
     }
-  }else {
+  } else {
 
-    console.log( _inJson)
+    console.log(_inJson)
     if ('path' in _inJson) {
       console.log('path success')
-    }else {
+    } else {
       success = false
     }
 
-    for (_inJson of _inJson.dp){
+    for (_inJson of _inJson.dp) {
       if ('ts' in _inJson &&      //'timestamp' exists
-          'value' in _inJson &&          //'value' exists
-          _inJson.error === undefined )           //'error' exists
+        'value' in _inJson &&          //'value' exists
+        _inJson.error === undefined)           //'error' exists
       {
         console.log('success')
       } else {
@@ -138,16 +139,16 @@ function isGetFailureResponseForHTTPS(_inJson) {
   // TODO: better to check with Json schema
   // getSuccessResponse has action?
   // console.log(_inJson)
-  if ("Error Code" in _inJson){
+  if ("Error Code" in _inJson) {
     return false
-  }else{
+  } else {
     return true
   }
 }
 ////////////////////////////////////////////////////////////////////
 
 
-function isGetSuccessResponse( _reqId, _inJson) {
+function isGetSuccessResponse(_reqId, _inJson) {
   // TODO: better to check with Json schema
   // getSuccessResponse has action?
 
@@ -155,7 +156,7 @@ function isGetSuccessResponse( _reqId, _inJson) {
     'requestId' in _inJson &&
     'ts' in _inJson.data.dp &&      //'timestamp' exists
     'value' in _inJson.data.dp &&          //'value' exists
-    _inJson.error === undefined )          //'error' exists
+    _inJson.error === undefined)          //'error' exists
   {
     if (_reqId === "" || _reqId === _inJson.requestId) {
       return true;
@@ -166,13 +167,13 @@ function isGetSuccessResponse( _reqId, _inJson) {
     return false;
   }
 }
-function isGetErrorResponse( _reqId, _inJson) {
+function isGetErrorResponse(_reqId, _inJson) {
   // TODO: better to check with Json schema
   if (_inJson.action === "get" &&
-      _inJson.requestId &&
-      _inJson.timestamp &&      //'timestamp' exists
-      _inJson.value === undefined &&          //'value' exists
-      _inJson.error )           //'error' exists
+    _inJson.requestId &&
+    _inJson.timestamp &&      //'timestamp' exists
+    _inJson.value === undefined &&          //'value' exists
+    _inJson.error)           //'error' exists
   {
     if (_reqId === "" || _reqId === _inJson.requestId) {
       return true;
@@ -185,12 +186,12 @@ function isGetErrorResponse( _reqId, _inJson) {
 }
 
 // === set helper ===
-function isSetSuccessResponse( _reqId, _inJson) {
+function isSetSuccessResponse(_reqId, _inJson) {
   // TODO: better to check with Json schema
   if (_inJson.action === "set" &&
-      _inJson.requestId &&
-      _inJson.timestamp &&        //'timestamp' exists
-      _inJson.error == undefined) //'error' exists
+    _inJson.requestId &&
+    _inJson.timestamp &&        //'timestamp' exists
+    _inJson.error == undefined) //'error' exists
   {
     if (_reqId === "" || _reqId === _inJson.requestId) {
       return true;
@@ -201,14 +202,14 @@ function isSetSuccessResponse( _reqId, _inJson) {
     return false;
   }
 }
-function isSetErrorResponse( _reqId, _inJson) {
+function isSetErrorResponse(_reqId, _inJson) {
   // TODO: better to check with Json schema
   if (_inJson.action === "set" &&
-      _inJson.requestId &&
-      _inJson.timestamp &&      //'timestamp' exists
-      _inJson.error)            //'error' exists
-      //_inJson.error.number &&   //'error.number' exists
-      //_inJson.error.reason)     //'error.reason' exists
+    _inJson.requestId &&
+    _inJson.timestamp &&      //'timestamp' exists
+    _inJson.error)            //'error' exists
+  //_inJson.error.number &&   //'error.number' exists
+  //_inJson.error.reason)     //'error.reason' exists
   {
     if (_reqId === "" || _reqId === _inJson.requestId) {
       return true;
@@ -221,15 +222,14 @@ function isSetErrorResponse( _reqId, _inJson) {
 }
 
 // === subscribe helper ===
-function isSubscribeSuccessResponse( _reqId, _inJson) {
+function isSubscribeSuccessResponse(_reqId, _inJson) {
   // TODO: better to check with Json schema
   // getSuccessResponse has action?
   if (_inJson.action === "subscribe" &&
-      _inJson.requestId &&
-      _inJson.subscriptionId &&   //'subId' exists
-      _inJson.timestamp &&      //'timestamp' exists
-      _inJson.error === undefined )
-  {
+    _inJson.requestId &&
+    _inJson.subscriptionId &&   //'subId' exists
+    _inJson.timestamp &&      //'timestamp' exists
+    _inJson.error === undefined) {
     if (_reqId === "" || _reqId === _inJson.requestId) {
       return true;
     } else {
@@ -240,14 +240,13 @@ function isSubscribeSuccessResponse( _reqId, _inJson) {
   }
 }
 
-function isSubscribeErrorResponse( _reqId, _inJson) {
+function isSubscribeErrorResponse(_reqId, _inJson) {
   // TODO: better to check with Json schema
   if (_inJson.action === "subscribe" &&
-      _inJson.requestId &&
-      _inJson.subscriptionId === undefined &&   //'subId' exists
-      _inJson.timestamp &&      //'timestamp' exists
-      _inJson.error )
-  {
+    _inJson.requestId &&
+    _inJson.subscriptionId === undefined &&   //'subId' exists
+    _inJson.timestamp &&      //'timestamp' exists
+    _inJson.error) {
     if (_reqId === "" || _reqId === _inJson.requestId) {
       return true;
     } else {
@@ -258,13 +257,13 @@ function isSubscribeErrorResponse( _reqId, _inJson) {
   }
 }
 
-function isSubscriptionNotificationResponse( _subId, _inJson) {
+function isSubscriptionNotificationResponse(_subId, _inJson) {
   // TODO: better to check with Json schema
   if (_inJson.action === "subscription" &&
-      _inJson.subscriptionId &&     //'subscriptionId' just exists
-      _inJson.timestamp &&          //'timestamp' exists
-      _inJson.value &&              //'value' exists
-      _inJson.error === undefined)  //'error' not exists
+    _inJson.subscriptionId &&     //'subscriptionId' just exists
+    _inJson.timestamp &&          //'timestamp' exists
+    _inJson.value &&              //'value' exists
+    _inJson.error === undefined)  //'error' not exists
   {
     if (_subId === "" || _subId === _inJson.subscriptionId) {
       return true;
@@ -275,13 +274,13 @@ function isSubscriptionNotificationResponse( _subId, _inJson) {
     return false;
   }
 }
-function isSubscriptionNotificationErrorResponse( _subId, _inJson) {
+function isSubscriptionNotificationErrorResponse(_subId, _inJson) {
   // TODO: better to check with Json schema
   if (_inJson.action === "subscription" &&
-      _inJson.subscriptionId &&       //'subscriptionId' just exists
-      _inJson.timestamp &&            //'timestamp' exists
-      _inJson.value === undefined &&  //'value' not exist
-      _inJson.error)                  //'error' exists
+    _inJson.subscriptionId &&       //'subscriptionId' just exists
+    _inJson.timestamp &&            //'timestamp' exists
+    _inJson.value === undefined &&  //'value' not exist
+    _inJson.error)                  //'error' exists
   {
     // if _subId is empty string, don't check subId matching
     if (_subId === "" || _subId === _inJson.subscriptionId) {
@@ -295,13 +294,13 @@ function isSubscriptionNotificationErrorResponse( _subId, _inJson) {
 }
 
 // === unsubscribe helper ===
-function isUnsubscribeSuccessResponse( _reqId, _subId, _inJson) {
+function isUnsubscribeSuccessResponse(_reqId, _subId, _inJson) {
   // TODO: better to check with Json schema
   if (_inJson.action === "unsubscribe" &&
-      _inJson.requestId  &&
-      _inJson.subscriptionId &&
-      _inJson.error === undefined &&
-      _inJson.timestamp)      //'timestamp' exists
+    _inJson.requestId &&
+    _inJson.subscriptionId &&
+    _inJson.error === undefined &&
+    _inJson.timestamp)      //'timestamp' exists
   {
     if (_subId === "" || _subId === _inJson.subscriptionId) {
       if (_reqId === "" || _reqId === _inJson.requestId) {
@@ -316,15 +315,15 @@ function isUnsubscribeSuccessResponse( _reqId, _subId, _inJson) {
     return false;
   }
 }
-function isUnsubscribeErrorResponse( _reqId, _subId, _inJson) {
+function isUnsubscribeErrorResponse(_reqId, _subId, _inJson) {
   // TODO: better to check with Json schema
   if (_inJson.action === "unsubscribe" &&
-      _inJson.requestId &&
-      _inJson.subscriptionId &&
-      _inJson.timestamp &&      //'timestamp' exists
-      _inJson.error)          //'error' exists
+    _inJson.requestId &&
+    _inJson.subscriptionId &&
+    _inJson.timestamp &&      //'timestamp' exists
+    _inJson.error)          //'error' exists
   {
-    if (_subId === "" || _subId === _inJson.subscriptionId){
+    if (_subId === "" || _subId === _inJson.subscriptionId) {
       if (_reqId === "" || _reqId === _inJson.requestId) {
         return true;
       } else {
@@ -338,14 +337,13 @@ function isUnsubscribeErrorResponse( _reqId, _subId, _inJson) {
   }
 }
 
-function isUnsubscribeAllSuccessResponse( _reqId, _inJson) {
+function isUnsubscribeAllSuccessResponse(_reqId, _inJson) {
   // TODO: better to check with Json schema
   if (_inJson.action === "unsubscribeAll" &&
-      _inJson.requestId &&
-      _inJson.subscriptionId === undefined &&
-      _inJson.timestamp &&     //'timestamp' exists
-      _inJson.error === undefined)
-  {
+    _inJson.requestId &&
+    _inJson.subscriptionId === undefined &&
+    _inJson.timestamp &&     //'timestamp' exists
+    _inJson.error === undefined) {
     if (_reqId === "" || _reqId === _inJson.requestId) {
       return true;
     } else {
@@ -355,13 +353,13 @@ function isUnsubscribeAllSuccessResponse( _reqId, _inJson) {
     return false;
   }
 }
-function isUnsubscribeAllErrorResponse( _reqId, _inJson) {
+function isUnsubscribeAllErrorResponse(_reqId, _inJson) {
   // TODO: better to check with Json schema
   if (_inJson.action === "unsubscribeAll" &&
-      _inJson.requestId &&
-      _inJson.subscriptionId === undefined &&
-      _inJson.timestamp &&      //'timestamp' exists
-      _inJson.error)          //'error' exists
+    _inJson.requestId &&
+    _inJson.subscriptionId === undefined &&
+    _inJson.timestamp &&      //'timestamp' exists
+    _inJson.error)          //'error' exists
   {
     if (_reqId === "" || _reqId === _inJson.requestId) {
       return true;
@@ -378,7 +376,7 @@ function isUnsubscribeAllErrorResponse( _reqId, _inJson) {
 function getTimestamp() {
   var date = new Date();
   var unixTimeMsec = date.getTime();
-  var unixTimeSec = Math.floor(date.getTime()/1000);
+  var unixTimeSec = Math.floor(date.getTime() / 1000);
 
   return unixTimeMsec;
 }
@@ -394,29 +392,29 @@ function addLogRequestMessageForHTTPS(_request, _host, _header, _data) {
   msg = document.getElementById('result').innerHTML;
   // show message with green background
   msg = msg + "<br>"
-        + '<div style="font-size:20px; background-color:#E56D29;">'
-        + "Request: "
-        + '</div>';
+    + '<div style="font-size:20px; background-color:#E56D29;">'
+    + "Request: "
+    + '</div>';
 
   msg = msg
-  + '<div style="font-size:20px; background-color:#E56D29;">'
-  + '<br>' + _request + '<br>'
-  + 'Host: ' + _host
-  + '</div>';
+    + '<div style="font-size:20px; background-color:#E56D29;">'
+    + '<br>' + _request + '<br>'
+    + 'Host: ' + _host
+    + '</div>';
 
   for (var key in _header) {
     //console.log(key + ": " + _header[key])
     msg = msg
-    + '<div style="font-size:20px; background-color:#E56D29;">'
-    + key + ": " + _header[key]
-    + '</div>';
+      + '<div style="font-size:20px; background-color:#E56D29;">'
+      + key + ": " + _header[key]
+      + '</div>';
   }
 
-  if (_request.split(" ")[0] === "POST"){
+  if (_request.split(" ")[0] === "POST") {
     msg = msg
-    + '<div style="font-size:20px; background-color:#E56D29;">'
-    + JSON.stringify(_data)
-    + '</div>';
+      + '<div style="font-size:20px; background-color:#E56D29;">'
+      + JSON.stringify(_data)
+      + '</div>';
   }
 
   document.getElementById('result').innerHTML = msg;
@@ -426,28 +424,28 @@ function addLogSuccessForHTTPS(_msg, _status_msg, _header, _data) {
   msg = document.getElementById('result').innerHTML;
   // show message with green background
   msg = msg + "<br>"
-        + '<div style="font-size:20px; background-color:#00CC00;">'
-        + "SUCCESS : " + _msg
-        + '</div> <br>';
+    + '<div style="font-size:20px; background-color:#00CC00;">'
+    + "SUCCESS : " + _msg
+    + '</div> <br>';
 
   msg = msg
-  + '<div style="font-size:20px; background-color:#00CC00;">'
-  + 'Response:'  + '<br><br>'  
-  + _status_msg
-  + '</div>';
+    + '<div style="font-size:20px; background-color:#00CC00;">'
+    + 'Response:' + '<br><br>'
+    + _status_msg
+    + '</div>';
 
   for (var key in _header) {
     //console.log(key + ": " + _header[key])
     msg = msg
-    + '<div style="font-size:20px; background-color:#00CC00;">'
-    + key + ": " + _header[key]
-    + '</div>';
+      + '<div style="font-size:20px; background-color:#00CC00;">'
+      + key + ": " + _header[key]
+      + '</div>';
   }
 
   msg = msg
-  + '<div style="font-size:20px; background-color:#00CC00;">'
-  + JSON.stringify(_data)
-  + '</div>';
+    + '<div style="font-size:20px; background-color:#00CC00;">'
+    + JSON.stringify(_data)
+    + '</div>';
 
   document.getElementById('result').innerHTML = msg;
 }
@@ -457,28 +455,28 @@ function addLogFailureForHTTPS(_msg, _status_msg, _header, _data) {
   msg = document.getElementById('result').innerHTML;
   // show message with green background
   msg = msg + "<br>"
-        + '<div style="font-size:20px; background-color:red;">'
-        + "FAILURE : " + _msg
-        + '</div> <br>';
+    + '<div style="font-size:20px; background-color:red;">'
+    + "FAILURE : " + _msg
+    + '</div> <br>';
 
   msg = msg
-  + '<div style="font-size:20px; background-color:red;">'
-  + 'Response:'  + '<br><br>'  
-  + _status_msg
-  + '</div>';
+    + '<div style="font-size:20px; background-color:red;">'
+    + 'Response:' + '<br><br>'
+    + _status_msg
+    + '</div>';
 
   for (var key in _header) {
     //console.log(key + ": " + _header[key])
     msg = msg
-    + '<div style="font-size:20px; background-color:red;">'
-    + key + ": " + _header[key]
-    + '</div>';
+      + '<div style="font-size:20px; background-color:red;">'
+      + key + ": " + _header[key]
+      + '</div>';
   }
 
   msg = msg
-  + '<div style="font-size:20px; background-color:red;">'
-  + JSON.stringify(_data)
-  + '</div>';
+    + '<div style="font-size:20px; background-color:red;">'
+    + JSON.stringify(_data)
+    + '</div>';
 
   document.getElementById('result').innerHTML = msg;
 }
@@ -487,9 +485,9 @@ function addLogSuccess(_msg) {
   msg = document.getElementById('result').innerHTML;
   // show message with green background
   msg = msg + "<br>"
-        + '<div style="font-size:30px; background-color:#00CC00;">'
-        + "SUCCESS : " + _msg
-        + '</div>';
+    + '<div style="font-size:30px; background-color:#00CC00;">'
+    + "SUCCESS : " + _msg
+    + '</div>';
   document.getElementById('result').innerHTML = msg;
 }
 
@@ -497,9 +495,9 @@ function addLogFailure(_msg) {
   msg = document.getElementById('result').innerHTML;
   // show message with red background
   msg = msg + "<br>"
-        + '<div style="font-size:30px; background-color:red;">'
-        + "FAILURE : " + _msg
-        + '</div>';
+    + '<div style="font-size:30px; background-color:red;">'
+    + "FAILURE : " + _msg
+    + '</div>';
   document.getElementById('result').innerHTML = msg;
 }
 
@@ -507,60 +505,60 @@ function getUniqueReqId() {
   // create semi-uniquID (for implementation easyness) as timestamp(milli sec)+random string
   // uniqueness is not 100% guaranteed.
   var strength = 1000;
-  var uniq = new Date().getTime().toString(16) + Math.floor(strength*Math.random()).toString(16);
-  return "reqid-"+uniq;
+  var uniq = new Date().getTime().toString(16) + Math.floor(strength * Math.random()).toString(16);
+  return "reqid-" + uniq;
 }
 
-function createRequestJson(_action, _path, _val, _filter ) {
+function createRequestJson(_action, _path, _val, _filter) {
   var reqJson = null;
   var reqId = getUniqueReqId();
   if (_action === 'get') {
-    reqJson = '{"action":"get","path":"'+_path+'","requestId":"'+reqId+'"}';
+    reqJson = '{"action":"get","path":"' + _path + '","requestId":"' + reqId + '"}';
   } else if (_action === 'set') {
-    reqJson = '{"action":"set","path":"'+_path+'","value":"'+_val+'","requestId":"'+reqId+'"}';
+    reqJson = '{"action":"set","path":"' + _path + '","value":"' + _val + '","requestId":"' + reqId + '"}';
   } else if (_action === 'subscribe') {
     var str_filter = JSON.stringify(_filter);
-    reqJson = '{"action":"subscribe","path":"'+_path+'","filters":"'+ str_filter +'","requestId":"'+reqId+'"}';
+    reqJson = '{"action":"subscribe","path":"' + _path + '","filters":"' + str_filter + '","requestId":"' + reqId + '"}';
   }
   return reqJson;
 }
 
 // === test suite helper ===
-function helper_terminate_normal( _msg, _wsconn1, _wsconn2 ) {
-  addLogMessage( _msg );
-  t.step_timeout(function() {
+function helper_terminate_normal(_msg, _wsconn1, _wsconn2) {
+  addLogMessage(_msg);
+  t.step_timeout(function () {
     if (_wsconn1)
       _wsconn1.close();
     if (_wsconn2)
       _wsconn2.close();
 
     //close websocket connection
-    if (_wsconn1 == undefined && _wsconn2 == undefined && typeof(vehicle) != "undefined")
+    if (_wsconn1 == undefined && _wsconn2 == undefined && typeof (vehicle) != "undefined")
       vehicle.close();
     t.done();
   }, TIME_FINISH_WAIT); // wait time to let human read the result.
 }
 
-function helper_terminate_success_for_https( _msg, _status_msg, _header, _data) {
-  addLogSuccessForHTTPS( _msg, _status_msg, _header, _data );
-  t.step_timeout(function() {
+function helper_terminate_success_for_https(_msg, _status_msg, _header, _data) {
+  addLogSuccessForHTTPS(_msg, _status_msg, _header, _data);
+  t.step_timeout(function () {
     assert_true(true, _msg);
     t.done();
   }, TIME_FINISH_WAIT); // wait time to let human read the result.
 }
 
 
-function helper_terminate_failure_for_https( _msg, _status_msg, _header, _data) {
-  addLogFailureForHTTPS( _msg, _status_msg, _header, _data );
-  t.step_timeout(function() {
+function helper_terminate_failure_for_https(_msg, _status_msg, _header, _data) {
+  addLogFailureForHTTPS(_msg, _status_msg, _header, _data);
+  t.step_timeout(function () {
     assert_true(false, _msg);
     t.done();
   }, TIME_FINISH_WAIT); // wait time to let human read the result.
 }
 
-function helper_terminate_success( _msg, _wsconn1, _wsconn2 ) {
-  addLogSuccess( _msg );
-  t.step_timeout(function() {
+function helper_terminate_success(_msg, _wsconn1, _wsconn2) {
+  addLogSuccess(_msg);
+  t.step_timeout(function () {
     assert_true(true, _msg);
     if (_wsconn1)
       _wsconn1.close();
@@ -568,22 +566,22 @@ function helper_terminate_success( _msg, _wsconn1, _wsconn2 ) {
       _wsconn2.close();
 
     //close websocket connection
-    if (_wsconn1 == undefined && _wsconn2 == undefined && typeof(vehicle) != "undefined")
+    if (_wsconn1 == undefined && _wsconn2 == undefined && typeof (vehicle) != "undefined")
       vehicle.close();
     t.done();
   }, TIME_FINISH_WAIT); // wait time to let human read the result.
 }
-function helper_terminate_failure( _msg, _wsconn1, _wsconn2 ) {
-  addLogFailure( _msg );
-  t.step_timeout(function() {
-    assert_throws(null, function(){}, _msg);
+function helper_terminate_failure(_msg, _wsconn1, _wsconn2) {
+  addLogFailure(_msg);
+  t.step_timeout(function () {
+    assert_throws(null, function () { }, _msg);
     if (_wsconn1)
       _wsconn1.close();
     if (_wsconn2)
       _wsconn2.close();
 
     //close websocket connection
-    if (_wsconn1 == undefined && _wsconn2 == undefined && typeof(vehicle) != "undefined")
+    if (_wsconn1 == undefined && _wsconn2 == undefined && typeof (vehicle) != "undefined")
       vehicle.close();
     t.done();
   }, TIME_FINISH_WAIT); // wait time to let human read the result.
