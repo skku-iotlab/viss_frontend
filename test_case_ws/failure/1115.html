@@ -3,7 +3,7 @@
 <link rel="shortcut icon" href="#">
 <meta charset="utf-8">
 <title>
-    [1061: Search read a vss datapoint with a valid request and autorization token]
+    [1115: Update a vss datapoint with an invalid token]
 </title>
 <link rel="help" href="https://www.w3.org/TR/vehicle-information-service/#idl-def-getrequest">
 <link rel="stylesheet" type="text/html" href="../../static/css/style-general.css">
@@ -16,7 +16,7 @@
 <script type="text/html" src="../../static/js/vehicle-test-helper.js"></script>
 
 <div id="test-title">
-    [1061: Search read a vss datapoint with a valid request and autorization token]
+    [1115: Update a vss datapoint with an invalid token]
 </div>
 <br>
 <div id="test-assertion">
@@ -122,9 +122,7 @@
         }
 
         getAccessToken()
-        //request_json = '{"action":"get","path":"Vehicle/Speed" ,"authorization":' + JSON.stringify(access_token) + ',"requestId":"5688"}';
-        request_json = '{"action":"get","path":"Vehicle/Cabin/Door","filter":{"op-type":"paths","op-value":"*/*/IsOpen"},"authorization":"' + access_token + '","requestId":"5688"}';
-
+        request_json ='{"action": "set","path": "Vehicle/Speed","value": "80","authorization":"invalid_token","requestId": "5688"}'
         vehicle.send(request_json);
         showREQ(request_json)
     }
