@@ -6,14 +6,12 @@
     [1012: Send too many request in short period of time]
 </title>
 <link rel="help" href="https://www.w3.org/TR/vehicle-information-service/#idl-def-getrequest">
-<!-- <link rel="stylesheet" type="text/html" href="../../static/css/style-general.css"> -->
+<link rel="stylesheet" type="text/css" href="/css/style-general.css">
 
-
-
-<script type="text/html" src="../../static/js/testharness.js"></script>
-<script type="text/html" src="../../static/js/testharnessreport.js"></script>
-<script type="text/html" src="../../static/js/vehicle-test-config.js"></script>
-<script type="text/html" src="../../static/js/vehicle-test-helper.js"></script>
+<script src="/js/testharness.js"></script>
+<script src="/js/testharnessreport.js"></script>
+<script src="/js/vehicle-test-config.js"></script>
+<script src="/js/vehicle-test-helper.js"></script>
 
 <div id="test-title">
     [1012: Send too many request in short period of time]
@@ -58,15 +56,6 @@
             + '</div>';
         document.getElementById('result').innerHTML = msg;
     }
-
-    // function showRES_success(Or_msg) {
-    //     var msg = document.getElementById('result').innerHTML;
-    //     msg = "<br>"
-    //         + '<div style="font-size:20px; background-color:#00CC00;">'
-    //         + "SUCCESS : " + JSON.stringify(Or_msg)
-    //         + '</div>';
-    //     document.getElementById('result').innerHTML = msg;
-    // }
 
     function showRES_failure(Or_msg) {
         var msg = document.getElementById('result').innerHTML;

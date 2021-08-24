@@ -148,60 +148,64 @@ function isGetFailureResponseForHTTPS(_inJson) {
 ////////////////////////////////////////////////////////////////////
 
 
-function isGetSuccessResponse(_reqId, _inJson) {
+function isGetSuccessResponse(inJson) {
   // TODO: better to check with Json schema
   // getSuccessResponse has action?
+  var ret = true
+  _inJson = JSON.parse(inJson)
 
-  if (_inJson.action === "get" &&
-    'requestId' in _inJson &&
-    'ts' in _inJson.data.dp &&      //'timestamp' exists
-    'value' in _inJson.data.dp &&          //'value' exists
-    _inJson.error === undefined)          //'error' exists
-  {
-    if (_reqId === "" || _reqId === _inJson.requestId) {
-      return true;
+  if (Array.isArray(_inJson.data)) {
+    if (_inJson.action == "get" && 'requestId' in _inJson) {
+      for (var j in _inJson.data) {
+        if ("path" in _inJson.data[j] && "value" in _inJson.data[j].dp && "ts" in _inJson.data[j].dp) {
+          ret = true
+        } else {
+          ret = false
+        }
+      }
     } else {
-      return false;
+      ret = false
     }
   } else {
-    return false;
+    if ('error' in _inJson) {
+      ret = false
+    } else {
+      if (_inJson.action === "get" &&
+        'requestId' in _inJson &&
+        ('data' in _inJson || 'metadata' in _inJson)) {
+        ret = true
+      } else {
+        ret = false;
+      }
+    }
   }
+
+  return ret
 }
-function isGetErrorResponse(_reqId, _inJson) {
-  // TODO: better to check with Json schema
+function isGetErrorResponse(inJson) {
+  _inJson = JSON.parse(inJson)
   if (_inJson.action === "get" &&
     _inJson.requestId &&
-    _inJson.timestamp &&      //'timestamp' exists
-    _inJson.value === undefined &&          //'value' exists
-    _inJson.error)           //'error' exists
-  {
-    if (_reqId === "" || _reqId === _inJson.requestId) {
-      return true;
-    } else {
-      return false;
-    }
+    _inJson.error) {
+    return true;
   } else {
     return false;
   }
 }
 
 // === set helper ===
-function isSetSuccessResponse(_reqId, _inJson) {
+function isSetSuccessResponse(inJson) {
   // TODO: better to check with Json schema
+  var _inJson = JSON.parse(inJson)
   if (_inJson.action === "set" &&
     _inJson.requestId &&
-    _inJson.timestamp &&        //'timestamp' exists
-    _inJson.error == undefined) //'error' exists
-  {
-    if (_reqId === "" || _reqId === _inJson.requestId) {
-      return true;
-    } else {
-      return false;
-    }
+    _inJson.ts) {
+    return true
   } else {
     return false;
   }
 }
+
 function isSetErrorResponse(_reqId, _inJson) {
   // TODO: better to check with Json schema
   if (_inJson.action === "set" &&
@@ -222,19 +226,16 @@ function isSetErrorResponse(_reqId, _inJson) {
 }
 
 // === subscribe helper ===
-function isSubscribeSuccessResponse(_reqId, _inJson) {
+function isSubscribeSuccessResponse(inJson) {
   // TODO: better to check with Json schema
   // getSuccessResponse has action?
+  var _inJson = JSON.parse(inJson)
+  console.log(_inJson)
   if (_inJson.action === "subscribe" &&
     _inJson.requestId &&
     _inJson.subscriptionId &&   //'subId' exists
-    _inJson.timestamp &&      //'timestamp' exists
-    _inJson.error === undefined) {
-    if (_reqId === "" || _reqId === _inJson.requestId) {
-      return true;
-    } else {
-      return false;
-    }
+    _inJson.ts) {
+    return true
   } else {
     return false;
   }
@@ -257,19 +258,13 @@ function isSubscribeErrorResponse(_reqId, _inJson) {
   }
 }
 
-function isSubscriptionNotificationResponse(_subId, _inJson) {
+function isSubscriptionNotificationResponse(inJson) {
   // TODO: better to check with Json schema
+  var _inJson = JSON.parse(inJson)
   if (_inJson.action === "subscription" &&
-    _inJson.subscriptionId &&     //'subscriptionId' just exists
-    _inJson.timestamp &&          //'timestamp' exists
-    _inJson.value &&              //'value' exists
-    _inJson.error === undefined)  //'error' not exists
-  {
-    if (_subId === "" || _subId === _inJson.subscriptionId) {
-      return true;
-    } else {
-      return false;
-    }
+    _inJson.requestId &&
+    _inJson.data) {
+    return true
   } else {
     return false;
   }
@@ -481,22 +476,39 @@ function addLogFailureForHTTPS(_msg, _status_msg, _header, _data) {
   document.getElementById('result').innerHTML = msg;
 }
 
-function addLogSuccess(_msg) {
-  msg = document.getElementById('result').innerHTML;
-  // show message with green background
-  msg = msg + "<br>"
-    + '<div style="font-size:30px; background-color:#00CC00;">'
-    + "SUCCESS : " + _msg
-    + '</div>';
-  document.getElementById('result').innerHTML = msg;
+function addLogSuccess(_msg, _data) {
+  
+    msg = document.getElementById('result').innerHTML;
+    // show message with green background
+    msg = msg + "<br>"
+      + '<div style="font-size:20px; background-color:#00CC00;">'
+      + "SUCCESS : " + _msg
+      + '</div>'
+      + '<br></br>';
+
+    msg = msg
+      + '<div style="font-size:20px; background-color:#00CC00;">'
+      + 'Response:'
+      + '</div>';
+
+    msg = msg
+      + '<div style="font-size:20px; background-color:#00CC00;">'
+      + _data
+      + '</div>';
+    document.getElementById('result').innerHTML = msg;
 }
 
-function addLogFailure(_msg) {
+function addLogFailure(_msg, _data) {
   msg = document.getElementById('result').innerHTML;
   // show message with red background
   msg = msg + "<br>"
-    + '<div style="font-size:30px; background-color:red;">'
+    + '<div style="font-size:20px; background-color:red;">'
     + "FAILURE : " + _msg
+    + '</div>';
+
+  msg = msg + "<br>"
+    + '<div style="font-size:20px; background-color:red;">'
+    + _data
     + '</div>';
   document.getElementById('result').innerHTML = msg;
 }
@@ -556,34 +568,20 @@ function helper_terminate_failure_for_https(_msg, _status_msg, _header, _data) {
   }, TIME_FINISH_WAIT); // wait time to let human read the result.
 }
 
-function helper_terminate_success(_msg, _wsconn1, _wsconn2) {
-  addLogSuccess(_msg);
+function helper_terminate_success(_msg, _data) {
+  addLogSuccess(_msg, _data);
   t.step_timeout(function () {
     assert_true(true, _msg);
-    if (_wsconn1)
-      _wsconn1.close();
-    if (_wsconn2)
-      _wsconn2.close();
-
-    //close websocket connection
-    if (_wsconn1 == undefined && _wsconn2 == undefined && typeof (vehicle) != "undefined")
-      vehicle.close();
     t.done();
   }, TIME_FINISH_WAIT); // wait time to let human read the result.
 }
-function helper_terminate_failure(_msg, _wsconn1, _wsconn2) {
-  addLogFailure(_msg);
+function helper_terminate_failure(_msg, _data) {
+  addLogFailure(_msg, _data);
+  console.log(_data)
   t.step_timeout(function () {
-    assert_throws(null, function () { }, _msg);
-    if (_wsconn1)
-      _wsconn1.close();
-    if (_wsconn2)
-      _wsconn2.close();
-
-    //close websocket connection
-    if (_wsconn1 == undefined && _wsconn2 == undefined && typeof (vehicle) != "undefined")
-      vehicle.close();
+    assert_true(false, _msg);
     t.done();
   }, TIME_FINISH_WAIT); // wait time to let human read the result.
+
 }
 

@@ -23,6 +23,12 @@
   font-weight:bolder;
   color:black;
 }
+
+#request {
+  font-size:24px;
+  font-weight:bolder;
+  color:black;
+}
 #log {
   font-size:15px;
   color:blue;

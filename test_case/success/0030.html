@@ -33,6 +33,7 @@ When the client makes a request with a correct 'get' action<br>
 </div>
 
 <div id="result"></div>
+<div id="response"></div>
 <br>
 <div id="log"></div>
 
@@ -81,6 +82,7 @@ function executeRestAPI() {
         url = url+"?"+params
         path = path+"?"+params
     }
+    console.log(url)
     addLogRequestMessageForHTTPS(request + " /" + path + " HTTP/1.1", host,  header)
     xhttp.open(request, url, true);
     xhttp.send();
