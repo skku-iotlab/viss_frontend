@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <meta charset="utf-8">
 <title>
-    [0130: get signals and data with a valid request without wildcards]
+    [0052: Search read a vss metadata with a single path]
 </title>
 <link rel="help" href="https://www.w3.org/TR/vehicle-information-service/#idl-def-getrequest">
 <link rel="stylesheet" type="text/css" href="/css/style-general.css">
@@ -12,7 +12,7 @@
 <script src="/js/vehicle-test-helper.js"></script>
 
 <div id="test-title">
-    [0130: get signals and data without wildcards for HTTPS]
+    [0052: Search read a vss metadata with a single path]
 </div>
 <br>
 <div id="test-assertion">
@@ -58,7 +58,6 @@
                 var header = getResponseHeaderMap(this)
                 var status_msg = "HTTP/1.1 " + this.status + " " + this.statusText
                 var success = true
-
                 t.step_func(function () {
                     for (var temp_response_data of response_data.data) {
                         if (isGetSuccessResponseForHTTPS(temp_response_data) === false) {
@@ -66,12 +65,16 @@
                         }
                     }
                     if (success) {
-                        //assert_true(true, "Get response received. value = " + response_data.data.dp.value);
                         helper_terminate_success_for_https("Get response received. ", status_msg, header, response_data);
                     } else {
                         helper_terminate_failure("Get method failed");
                     }
                 })();
+            } else if (this.readyState == 4 && this.status == 401) {
+                var response_data = JSON.parse(this.response)
+                var header = getResponseHeaderMap(this)
+                var status_msg = "HTTP/1.1 " + this.status + " " + this.statusText
+                helper_terminate_failure_for_https("No match for path in tree.", status_msg, header, response_data);
             }
         };
         // REST API 
@@ -81,7 +84,9 @@
         let path = "Vehicle/Cabin/Door"
         let url = protocol + "://" + host + "/" + path
         let header = {}
-        let params = "filter={\"op-type\":\"paths\", \"op-value\":\"*/*/IsOpen\"}";
+        let params = "filter={\"op-type\":\"paths\", \"op-value\":\"Row1\"}";
+
+
         if (params.length > 0) {
             console.log(params.length)
             url = url + "?" + params

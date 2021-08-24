@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <meta charset="utf-8">
 <title>
-    [0130: get signals and data with a valid request without wildcards]
+    [0034: Read a vss datapoint with an expired token]
 </title>
 <link rel="help" href="https://www.w3.org/TR/vehicle-information-service/#idl-def-getrequest">
 <link rel="stylesheet" type="text/css" href="/css/style-general.css">
@@ -12,7 +12,7 @@
 <script src="/js/vehicle-test-helper.js"></script>
 
 <div id="test-title">
-    [0130: get signals and data without wildcards for HTTPS]
+    [0034: Read a vss datapoint with an expired token]
 </div>
 <br>
 <div id="test-assertion">
@@ -38,6 +38,14 @@
 
 <script>
 
+
+
+    function sleep(time) {
+        return new Promise((resolve) => setTimeout(resolve, time));
+    }
+    //https://stackoverflow.com/questions/951021/what-is-the-javascript-version-of-sleep
+
+
     function getResponseHeaderMap(xhr) {
         const headers = {};
         xhr.getAllResponseHeaders()
@@ -50,7 +58,32 @@
         return headers;
     }
 
-    function executeRestAPI() {
+    function getAccessToken() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                var response_data = JSON.parse(this.response);
+                access_token = response_data['access']
+                var header = getResponseHeaderMap(this)
+                console.log(this)
+                console.log(header)
+
+            }
+        };
+        // REST API 
+        let request = "POST"
+        let protocol = "http"
+        let host = "127.0.0.1:8000"
+        let path = "api/token"
+        let url = protocol + "://" + host + "/" + path
+        let data = new FormData();
+        data.append('username', 'skku');
+        data.append('password', 'skku');
+        xhttp.open(request, url, false);
+        xhttp.send(data);
+    }
+
+    function executeRestAPIWithAccessToken(access_token) {
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
@@ -58,30 +91,31 @@
                 var header = getResponseHeaderMap(this)
                 var status_msg = "HTTP/1.1 " + this.status + " " + this.statusText
                 var success = true
-
+                console.log(this.getAllResponseHeaders())
                 t.step_func(function () {
-                    for (var temp_response_data of response_data.data) {
-                        if (isGetSuccessResponseForHTTPS(temp_response_data) === false) {
-                            success = false
-                        }
-                    }
+                    success = isGetSuccessResponseForHTTPS(response_data.data)
                     if (success) {
-                        //assert_true(true, "Get response received. value = " + response_data.data.dp.value);
                         helper_terminate_success_for_https("Get response received. ", status_msg, header, response_data);
                     } else {
                         helper_terminate_failure("Get method failed");
                     }
                 })();
+            } else if (this.readyState == 4 && this.status == 401) {
+                var response_data = JSON.parse(this.response)
+                var header = getResponseHeaderMap(this)
+                var status_msg = "HTTP/1.1 " + this.status + " " + this.statusText
+                helper_terminate_failure_for_https("No match for path in tree.", status_msg, header, response_data);
             }
         };
         // REST API 
         let request = "GET"
         let protocol = "http"
         let host = "127.0.0.1:8000"
-        let path = "Vehicle/Cabin/Door"
+        let path = "Vehicle/Speed"
         let url = protocol + "://" + host + "/" + path
         let header = {}
-        let params = "filter={\"op-type\":\"paths\", \"op-value\":\"*/*/IsOpen\"}";
+        header['Authorization'] = 'Bearer ' + access_token
+        let params = ''
         if (params.length > 0) {
             console.log(params.length)
             url = url + "?" + params
@@ -89,12 +123,33 @@
         }
         addLogRequestMessageForHTTPS(request + " /" + path + " HTTP/1.1", host, header)
         xhttp.open(request, url, true);
+        for (let key in header) {
+            xhttp.setRequestHeader(key, header[key]);
+        }
         xhttp.send();
     }
 
+
     var t = async_test("Get success case");
 
-    executeRestAPI()
+    let access_token = ''
+    getAccessToken()
+    // executeRestAPIWithAccessToken(access_token)
+
+    /*
+    settings.py 수정한 후에 실행해야 error 반환
+
+    SIMPLE_JWT = {
+        'SIGNING_KEY': SECRET_KEY,
+        'ALGORITHM': 'HS256',
+        'ACCESS_TOKEN_LIFETIME': datetime.timedelta(seconds=1),
+        'REFRESH_TOKEN_LIFETIME': datetime.timedelta(days=28),
+    }
+    */
+
+    sleep(3000).then(() => {
+        executeRestAPIWithAccessToken(access_token);
+    });
 
 </script>
 

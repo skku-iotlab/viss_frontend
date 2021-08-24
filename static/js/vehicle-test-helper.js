@@ -452,7 +452,7 @@ function addLogFailureForHTTPS(_msg, _status_msg, _header, _data) {
   msg = msg + "<br>"
     + '<div style="font-size:20px; background-color:red;">'
     + "FAILURE : " + _msg
-    + '</div> <br>';
+    + '<br></br></div>';
 
   msg = msg
     + '<div style="font-size:20px; background-color:red;">'
@@ -504,9 +504,10 @@ function addLogFailure(_msg, _data) {
   msg = msg + "<br>"
     + '<div style="font-size:20px; background-color:red;">'
     + "FAILURE : " + _msg
+    + "<br></br>"
     + '</div>';
 
-  msg = msg + "<br>"
+  msg = msg
     + '<div style="font-size:20px; background-color:red;">'
     + _data
     + '</div>';
