@@ -134,11 +134,9 @@
 
         getAccessToken()
         request_json = '{"action": "subscribe","path": "Vehicle/Speed","filter": { "op-type": "capture", "op-value": "time-based", "op-extra": { "period": "3" } },"authorization":"'+access_token+'","requestId": "5688"}'
-
-        console.log(request_json)
+        showREQ(request_json)
         sleep(1500).then(() => {
             vehicle.send(request_json);
-            showREQ(request_json)
         });
     }
 

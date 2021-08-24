@@ -132,10 +132,9 @@
         getAccessToken()
         request_json ='{"action": "get","path": "Vehicle/Speed","filter": {"op-type":"history", "op-value":"P2DT12H"},"authorization":"' + access_token + '","requestId": "5688"}'
         //setting.py => 'ACCESS_TOKEN_LIFETIME': datetime.timedelta(seconds=1), => token 발급하고 1.5초 이후에 vehicle send -> expired token !
-        console.log(request_json)
+        showREQ(request_json)   
         sleep(1500).then(() => {
             vehicle.send(request_json);
-            showREQ(request_json)   
         });
     }
 

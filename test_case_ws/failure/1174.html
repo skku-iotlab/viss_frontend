@@ -3,7 +3,7 @@
 <link rel="shortcut icon" href="#">
 <meta charset="utf-8">
 <title>
-    [1157: Subscribe a vss datapoint with change capture filter and an expired token]
+    [1174: Subscribe a vss datapoint with range capture filter with boundary not number nor boolean]
 </title>
 <link rel="help" href="https://www.w3.org/TR/vehicle-information-service/#idl-def-getrequest">
 <link rel="stylesheet" type="text/html" href="../../static/css/style-general.css">
@@ -16,7 +16,7 @@
 <script type="text/html" src="../../static/js/vehicle-test-helper.js"></script>
 
 <div id="test-title">
-    [1157: Subscribe a vss datapoint with change capture filter and an expired token]
+    [1174: Subscribe a vss datapoint with range capture filter with boundary not number nor boolean]
 </div>
 <br>
 <div id="test-assertion">
@@ -41,53 +41,15 @@
 <br>
 <script>
     // var t = async_test("Get success case");
-    var vehicle = new WebSocket("ws://localhost:3001");
+    var vehicle = new WebSocket("ws://localhost:3002");
     //3001 : secured
-    let access_token = ""
     var request_json = ""
-    var Or_msg=[]
-
-
-
-    function getResponseHeaderMap(xhr) {
-        const headers = {};
-        xhr.getAllResponseHeaders()
-            .trim()
-            .split(/[\r\n]+/)
-            .map(value => value.split(/: /))
-            .forEach(keyValue => {
-                headers[keyValue[0].trim()] = keyValue[1].trim();
-            });
-        return headers;
-    }
-
-
-    function getAccessToken() {
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                var response_data = JSON.parse(this.response);
-                access_token = response_data['access']
-                var header = getResponseHeaderMap(this)
-            }
-        };
-        // REST API 
-        let request = "POST"
-        let protocol = "http"
-        let host = "127.0.0.1:8000"
-        let path = "api/token"
-        let url = protocol + "://" + host + "/" + path
-        let data = new FormData();
-        data.append('username', 'skku');
-        data.append('password', 'skku');
-        xhttp.open(request, url, false);
-        xhttp.send(data);
-    }
+    var Or_msg = []
 
     function showRES_success(Or_msg) {
         var msg = document.getElementById('result').innerHTML;
-        var tmp=JSON.stringify(Or_msg)
-        var result=tmp.substr(1,tmp.length-2)
+        var tmp = JSON.stringify(Or_msg)
+        var result = tmp.substr(1, tmp.length - 2)
 
         msg = "<br>"
             + '<div style="font-size:20px; background-color:#00CC00;">'
@@ -114,11 +76,6 @@
         document.getElementById('request').innerHTML = rq_msg;
     }
 
-    
-    function sleep(time) {
-        return new Promise((resolve) => setTimeout(resolve, time));
-    }
-
     vehicle.onopen = function () {
         vehicle.onmessage = function (event) {
             var tmp = JSON.parse(event.data);
@@ -130,17 +87,10 @@
             }
         }
 
-        getAccessToken()
-
-        request_json = '{"action": "subscribe","path": "Vehicle/OBD/FuelLevel","filter": { "op-type": "capture", "op-value": "change", "op-extra": { "logic-op": "gt", "diff": "0.1" } },"authorization":"'+access_token+'","requestId": "6578"}'
+        request_json = '{"action": "subscribe","path": "Vehicle/Speed","filter": { "op-type": "capture", "op-value": "range", "op-extra": { "logic-op": "gt", "boundary": "what" } },"requestId": "6578"}'
+        vehicle.send(request_json);
         showREQ(request_json)
-
-        sleep(1500).then(() => {
-            vehicle.send(request_json);
-        });
     }
-
-
 </script>
 
 </html>

@@ -3,7 +3,7 @@
 <link rel="shortcut icon" href="#">
 <meta charset="utf-8">
 <title>
-    [1157: Subscribe a vss datapoint with change capture filter and an expired token]
+    [1175: Subscribe a vss datapoint with range capture filter and autorization token]
 </title>
 <link rel="help" href="https://www.w3.org/TR/vehicle-information-service/#idl-def-getrequest">
 <link rel="stylesheet" type="text/html" href="../../static/css/style-general.css">
@@ -16,7 +16,7 @@
 <script type="text/html" src="../../static/js/vehicle-test-helper.js"></script>
 
 <div id="test-title">
-    [1157: Subscribe a vss datapoint with change capture filter and an expired token]
+    [1175: Subscribe a vss datapoint with range capture filter and autorization token]
 </div>
 <br>
 <div id="test-assertion">
@@ -114,11 +114,6 @@
         document.getElementById('request').innerHTML = rq_msg;
     }
 
-    
-    function sleep(time) {
-        return new Promise((resolve) => setTimeout(resolve, time));
-    }
-
     vehicle.onopen = function () {
         vehicle.onmessage = function (event) {
             var tmp = JSON.parse(event.data);
@@ -132,12 +127,10 @@
 
         getAccessToken()
 
-        request_json = '{"action": "subscribe","path": "Vehicle/OBD/FuelLevel","filter": { "op-type": "capture", "op-value": "change", "op-extra": { "logic-op": "gt", "diff": "0.1" } },"authorization":"'+access_token+'","requestId": "6578"}'
-        showREQ(request_json)
+        request_json = '{"action": "subscribe","path": "Vehicle/OBD/FuelLevel","filter": { "op-type": "capture", "op-value": "range", "op-extra": { "logic-op": "gt", "boundary": "0.1" } },"authorization":"'+access_token+'","requestId": "6578"}'
 
-        sleep(1500).then(() => {
-            vehicle.send(request_json);
-        });
+        vehicle.send(request_json);
+        showREQ(request_json)
     }
 
 
