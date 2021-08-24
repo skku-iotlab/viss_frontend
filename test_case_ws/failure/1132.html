@@ -3,7 +3,7 @@
 <link rel="shortcut icon" href="#">
 <meta charset="utf-8">
 <title>
-    [1030: Read a vss datapoint with a valid request]
+    [1132: Subscribe a vss datapoint with time-based capture filter with invalid path]
 </title>
 <link rel="help" href="https://www.w3.org/TR/vehicle-information-service/#idl-def-getrequest">
 <link rel="stylesheet" type="text/html" href="../../static/css/style-general.css">
@@ -16,7 +16,7 @@
 <script type="text/html" src="../../static/js/vehicle-test-helper.js"></script>
 
 <div id="test-title">
-    [1030: Read a vss datapoint with a valid request]
+    [1132: Subscribe a vss datapoint with time-based capture filter with invalid path]
 </div>
 <br>
 <div id="test-assertion">
@@ -44,12 +44,16 @@
     var vehicle = new WebSocket("ws://localhost:3002");
     //3001 : secured
     var request_json = ""
+    var Or_msg=[]
 
     function showRES_success(Or_msg) {
         var msg = document.getElementById('result').innerHTML;
+        var tmp=JSON.stringify(Or_msg)
+        var result=tmp.substr(1,tmp.length-2)
+
         msg = "<br>"
             + '<div style="font-size:20px; background-color:#00CC00;">'
-            + "SUCCESS : " + JSON.stringify(Or_msg)
+            + "SUCCESS : " + result
             + '</div>';
         document.getElementById('result').innerHTML = msg;
     }
@@ -74,16 +78,15 @@
 
     vehicle.onopen = function () {
         vehicle.onmessage = function (event) {
-            console.log(event.data)
-            var Or_msg = JSON.parse(event.data);
+            var tmp = JSON.parse(event.data);
+            Or_msg.push(tmp)
             if ((event.data).includes("error")) {
                 showRES_failure(Or_msg)
             } else {
                 showRES_success(Or_msg)
             }
         }
-
-        request_json = '{"action":"get","path":"Vehicle/Speed" ,"requestId":"5688"}';
+        request_json = '{"action": "subscribe","path": "Vehicle/Speed123","filter": { "op-type": "capture", "op-value": "time-based", "op-extra": { "period": "3" } },"requestId": "5688"}'
         vehicle.send(request_json);
         showREQ(request_json)
     }
