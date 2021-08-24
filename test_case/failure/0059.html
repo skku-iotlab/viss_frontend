@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <meta charset="utf-8">
 <title>
-    [0031: Read a vss datapoint with an invalid path]
+    [0059: Search read a vss datapoint with a single incorrect op-value]
 </title>
 <link rel="help" href="https://www.w3.org/TR/vehicle-information-service/#idl-def-getrequest">
 <link rel="stylesheet" type="text/css" href="/css/style-general.css">
@@ -12,7 +12,7 @@
 <script src="/js/vehicle-test-helper.js"></script>
 
 <div id="test-title">
-    [0031: Read a vss datapoint with an invalid path]
+    [0059: Search read a vss datapoint with a single incorrect op-value]
 </div>
 <br>
 <div id="test-assertion">
@@ -33,7 +33,6 @@
 </div>
 
 <div id="result"></div>
-<div id="response"></div>
 <br>
 <div id="log"></div>
 
@@ -67,7 +66,7 @@
                         helper_terminate_failure("Get method failed");
                     }
                 })();
-            } else if (this.readyState == 4 && this.status == 404) {
+            }else if (this.readyState == 4 && this.status == 404) {
                 var response_data = JSON.parse(this.response)
                 var header = getResponseHeaderMap(this)
                 var status_msg = "HTTP/1.1 " + this.status + " " + this.statusText
@@ -78,21 +77,19 @@
         let request = "GET"
         let protocol = "http"
         let host = "127.0.0.1:8000"
-        let path = "Vehicle/Speed1"
+        let path = "Vehicle/Cabin/Door"
         let url = protocol + "://" + host + "/" + path
         let header = {}
-        let params = ''
+        let params = 'filter={"op-type":"pathdds", "op-value":"Row1/Left/IsOpen"}';
         if (params.length > 0) {
             console.log(params.length)
             url = url + "?" + params
             path = path + "?" + params
         }
-        console.log(url)
         addLogRequestMessageForHTTPS(request + " /" + path + " HTTP/1.1", host, header)
         xhttp.open(request, url, true);
         xhttp.send();
     }
-
 
     var t = async_test("Get success case");
 

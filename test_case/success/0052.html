@@ -70,11 +70,11 @@
                         helper_terminate_failure("Get method failed");
                     }
                 })();
-            } else if (this.readyState == 4 && this.status == 401) {
+            } else if (this.readyState == 4 && this.status == 404) {
                 var response_data = JSON.parse(this.response)
                 var header = getResponseHeaderMap(this)
                 var status_msg = "HTTP/1.1 " + this.status + " " + this.statusText
-                helper_terminate_failure_for_https("No match for path in tree.", status_msg, header, response_data);
+                helper_terminate_failure_for_https("Get method failed ", status_msg, header, response_data);
             }
         };
         // REST API 
@@ -84,7 +84,7 @@
         let path = "Vehicle/Cabin/Door"
         let url = protocol + "://" + host + "/" + path
         let header = {}
-        let params = "filter={\"op-type\":\"paths\", \"op-value\":\"Row1\"}";
+        let params = 'filter={"op-type":"paths", "op-value":"Row1"}';
 
 
         if (params.length > 0) {

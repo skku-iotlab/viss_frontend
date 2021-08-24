@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <meta charset="utf-8">
 <title>
-    [0031: Read a vss datapoint with an invalid path]
+    [0057: Search read mulitple vss metadata with using both wildcard and multiple op-values]
 </title>
 <link rel="help" href="https://www.w3.org/TR/vehicle-information-service/#idl-def-getrequest">
 <link rel="stylesheet" type="text/css" href="/css/style-general.css">
@@ -12,7 +12,7 @@
 <script src="/js/vehicle-test-helper.js"></script>
 
 <div id="test-title">
-    [0031: Read a vss datapoint with an invalid path]
+    [0057: Search read mulitple vss metadata with using both wildcard and multiple op-values]
 </div>
 <br>
 <div id="test-assertion">
@@ -33,7 +33,6 @@
 </div>
 
 <div id="result"></div>
-<div id="response"></div>
 <br>
 <div id="log"></div>
 
@@ -60,7 +59,11 @@
                 var status_msg = "HTTP/1.1 " + this.status + " " + this.statusText
                 var success = true
                 t.step_func(function () {
-                    success = isGetSuccessResponseForHTTPS(response_data.data)
+                    for (var temp_response_data of response_data.data) {
+                        if (isGetSuccessResponseForHTTPS(temp_response_data) === false) {
+                            success = false
+                        }
+                    }
                     if (success) {
                         helper_terminate_success_for_https("Get response received. ", status_msg, header, response_data);
                     } else {
@@ -78,21 +81,20 @@
         let request = "GET"
         let protocol = "http"
         let host = "127.0.0.1:8000"
-        let path = "Vehicle/Speed1"
+        let path = "Vehicle/Cabin/Door"
         let url = protocol + "://" + host + "/" + path
         let header = {}
-        let params = ''
+        let params = 'filter={"op-type":"paths", "op-value":["*/Left","*/Right"]}';
+
         if (params.length > 0) {
             console.log(params.length)
             url = url + "?" + params
             path = path + "?" + params
         }
-        console.log(url)
         addLogRequestMessageForHTTPS(request + " /" + path + " HTTP/1.1", host, header)
         xhttp.open(request, url, true);
         xhttp.send();
     }
-
 
     var t = async_test("Get success case");
 
