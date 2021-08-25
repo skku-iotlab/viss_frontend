@@ -100,6 +100,7 @@ function isGetSuccessResponseForHTTPS(_inJson) {
   // TODO: better to check with Json schema
   // getSuccessResponse has action?
   let success = true
+  print(typeof(_inJson))
   if (Array.isArray(_inJson.dp) == false) {
     if ('path' in _inJson &&
       'ts' in _inJson.dp &&      //'timestamp' exists
@@ -477,25 +478,25 @@ function addLogFailureForHTTPS(_msg, _status_msg, _header, _data) {
 }
 
 function addLogSuccess(_msg, _data) {
-  
-    msg = document.getElementById('result').innerHTML;
-    // show message with green background
-    msg = msg + "<br>"
-      + '<div style="font-size:20px; background-color:#00CC00;">'
-      + "SUCCESS : " + _msg
-      + '</div>'
-      + '<br></br>';
 
-    msg = msg
-      + '<div style="font-size:20px; background-color:#00CC00;">'
-      + 'Response:'
-      + '</div>';
+  msg = document.getElementById('result').innerHTML;
+  // show message with green background
+  msg = msg + "<br>"
+    + '<div style="font-size:20px; background-color:#00CC00;">'
+    + "SUCCESS : " + _msg
+    + '</div>'
+    + '<br></br>';
 
-    msg = msg
-      + '<div style="font-size:20px; background-color:#00CC00;">'
-      + _data
-      + '</div>';
-    document.getElementById('result').innerHTML = msg;
+  msg = msg
+    + '<div style="font-size:20px; background-color:#00CC00;">'
+    + 'Response:'
+    + '</div>';
+
+  msg = msg
+    + '<div style="font-size:20px; background-color:#00CC00;">'
+    + _data
+    + '</div>';
+  document.getElementById('result').innerHTML = msg;
 }
 
 function addLogFailure(_msg, _data) {

@@ -70,7 +70,7 @@
                         helper_terminate_failure("Get method failed");
                     }
                 })();
-            }else if (this.readyState == 4 && this.status == 404) {
+            }else if (this.readyState == 4) {
                 var response_data = JSON.parse(this.response)
                 var header = getResponseHeaderMap(this)
                 var status_msg = "HTTP/1.1 " + this.status + " " + this.statusText

@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <meta charset="utf-8">
 <title>
-    [0056: Search read multiple vss metadata with mulitiple op-values]
+    [0070: History read a vss datapoint with a valid request]
 </title>
 <link rel="help" href="https://www.w3.org/TR/vehicle-information-service/#idl-def-getrequest">
 <link rel="stylesheet" type="text/css" href="/css/style-general.css">
@@ -12,7 +12,7 @@
 <script src="/js/vehicle-test-helper.js"></script>
 
 <div id="test-title">
-    [0056: Search read multiple vss metadata with mulitiple op-values]
+    [0070: History read a vss datapoint with a valid request]
 </div>
 <br>
 <div id="test-assertion">
@@ -58,35 +58,26 @@
                 var header = getResponseHeaderMap(this)
                 var status_msg = "HTTP/1.1 " + this.status + " " + this.statusText
                 var success = true
+                console.log(response_data)
+
                 t.step_func(function () {
-                    for (var temp_response_data of response_data.data) {
-                        if (isGetSuccessResponseForHTTPS(temp_response_data) === false) {
-                            success = false
-                        }
-                    }
+                    success = isGetSuccessResponseForHTTPS(response_data.data)
                     if (success) {
                         helper_terminate_success_for_https("Get response received. ", status_msg, header, response_data);
                     } else {
                         helper_terminate_failure("Get method failed");
                     }
                 })();
-            } else if (this.readyState == 4) {
-                var response_data = JSON.parse(this.response)
-                var header = getResponseHeaderMap(this)
-                var status_msg = "HTTP/1.1 " + this.status + " " + this.statusText
-                helper_terminate_failure_for_https("Get method failed ", status_msg, header, response_data);
             }
         };
         // REST API 
         let request = "GET"
         let protocol = "http"
         let host = "127.0.0.1:8000"
-        let path = "Vehicle/Cabin/Door"
+        let path = "Vehicle/Acceleration/Longitudinal"
         let url = protocol + "://" + host + "/" + path
         let header = {}
-        let params = 'filter={"op-type":"paths", "op-value":["Row1", "Row2"]}';
-
-
+        let params = 'filter={"op-type":"history", "op-value":"P2DT12H"}';
         if (params.length > 0) {
             console.log(params.length)
             url = url + "?" + params
@@ -96,9 +87,7 @@
         xhttp.open(request, url, true);
         xhttp.send();
     }
-
     var t = async_test("Get success case");
-
     executeRestAPI()
 
 </script>

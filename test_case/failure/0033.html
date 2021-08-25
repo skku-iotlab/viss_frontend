@@ -87,14 +87,12 @@
                 t.step_func(function () {
                     success = isGetSuccessResponseForHTTPS(response_data.data)
                     if (success) {
-                        //assert_true(true, "Get response received. value = " + response_data.data.dp.value);
-
                         helper_terminate_success_for_https("Get response received. ", status_msg, header, response_data);
                     } else {
                         helper_terminate_failure("Get method failed");
                     }
                 })();
-            } else if (this.readyState == 4 && this.status == 404) {
+            } else if (this.readyState == 4) {
                 var response_data = JSON.parse(this.response)
                 var header = getResponseHeaderMap(this)
                 var status_msg = "HTTP/1.1 " + this.status + " " + this.statusText

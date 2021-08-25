@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <meta charset="utf-8">
 <title>
-    [0056: Search read multiple vss metadata with mulitiple op-values]
+    [0092: Service discovery read capture-filter of dynamic vss datapoint with a valid request]
 </title>
 <link rel="help" href="https://www.w3.org/TR/vehicle-information-service/#idl-def-getrequest">
 <link rel="stylesheet" type="text/css" href="/css/style-general.css">
@@ -12,7 +12,7 @@
 <script src="/js/vehicle-test-helper.js"></script>
 
 <div id="test-title">
-    [0056: Search read multiple vss metadata with mulitiple op-values]
+    [0092: Service discovery read capture-filter of dynamic vss datapoint with a valid request]
 </div>
 <br>
 <div id="test-assertion">
@@ -59,12 +59,11 @@
                 var status_msg = "HTTP/1.1 " + this.status + " " + this.statusText
                 var success = true
                 t.step_func(function () {
-                    for (var temp_response_data of response_data.data) {
-                        if (isGetSuccessResponseForHTTPS(temp_response_data) === false) {
-                            success = false
-                        }
+                    if (isGetSuccessResponseForServiceDiscoveryRead(response_data) === false) {
+                        success = false
                     }
                     if (success) {
+                        //assert_true(true, "Get response received. value = " + response_data.data.dp.value);
                         helper_terminate_success_for_https("Get response received. ", status_msg, header, response_data);
                     } else {
                         helper_terminate_failure("Get method failed");
@@ -81,14 +80,11 @@
         let request = "GET"
         let protocol = "http"
         let host = "127.0.0.1:8000"
-        let path = "Vehicle/Cabin/Door"
+        let path = "Vehicle/Powertrain/FuelSystem"
         let url = protocol + "://" + host + "/" + path
         let header = {}
-        let params = 'filter={"op-type":"paths", "op-value":["Row1", "Row2"]}';
-
-
+        let params = 'filter={"op-type":"metadata", "op-value":"dynamic","op-extra":"capture-filter"}';
         if (params.length > 0) {
-            console.log(params.length)
             url = url + "?" + params
             path = path + "?" + params
         }
