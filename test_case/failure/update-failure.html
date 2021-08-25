@@ -59,15 +59,11 @@ function executeRestAPI() {
             var status_msg = "HTTP/1.1 " + this.status + " " + this.statusText
             var success = true
             t.step_func(function() {
-
                 success = isGetFailureResponseForHTTPS(response_data)
                 if (success) {
                     helper_terminate_success_for_https("Get response received. ", status_msg, header, response_data);
                 } else {
-                    // var status_msg = "HTTP/1.1 " + response_data["Error Code"]
-                    // helper_terminate_failure_for_https("No match for path in tree.", status_msg, header, response_data);
                     helper_terminate_failure("Get method failed");
-
                 }
             })();
         }else if(this.readyState == 4 && this.status == 404){
