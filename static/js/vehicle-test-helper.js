@@ -100,7 +100,6 @@ function isGetSuccessResponseForHTTPS(_inJson) {
   // TODO: better to check with Json schema
   // getSuccessResponse has action?
   let success = true
-  print(typeof(_inJson))
   if (Array.isArray(_inJson.dp) == false) {
     if ('path' in _inJson &&
       'ts' in _inJson.dp &&      //'timestamp' exists

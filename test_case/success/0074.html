@@ -57,9 +57,6 @@
                 var response_data = JSON.parse(this.response);
                 access_token = response_data['access']
                 var header = getResponseHeaderMap(this)
-                console.log(this)
-                console.log(header)
-
             }
         };
         // REST API 
@@ -124,6 +121,8 @@
     var t = async_test("Get success case");
     let access_token = ''
     getAccessToken()
+    
+    
     executeRestAPIWithAccessToken(access_token)
 
 </script>
