@@ -114,21 +114,12 @@
             var success
             t.step_func(function () {
                 success = isSetSuccessResponse(event.data)
-                console.log(success)
                 if (success) {
                     helper_terminate_success("Set response received. ", event.data);
                 } else {
-                    console.log(event.data)
                     helper_terminate_failure("Set method failed", event.data);
                 }
             })();
-            // var Or_msg = JSON.parse(event.data);
-            // if ((event.data).includes("error")) {
-            //     showRES_failure(Or_msg)
-            // } else {
-            //     showRES_success(Or_msg)
-
-            // }
         }
 
         getAccessToken()

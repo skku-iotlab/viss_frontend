@@ -78,13 +78,10 @@
                 if (success) {
                     helper_terminate_success("Get response received. ", event.data);
                 } else {
-                    console.log(event.data)
                     helper_terminate_failure("Get method failed", event.data);
                 }
             })();
-          
         }
-
         request_json ='{"action": "get","path": "Vehicle/Speed","filter": {"op-type":"history", "op-value":"P1DT12H"},"requestId": "5688"}'
         vehicle.send(request_json);
         showREQ(request_json)

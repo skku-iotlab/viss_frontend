@@ -78,16 +78,9 @@
                 if (success) {
                     helper_terminate_success("Get response received. ", event.data);
                 } else {
-                    console.log(event.data)
                     helper_terminate_failure("Get method failed", event.data);
                 }
             })();
-            // var Or_msg = JSON.parse(event.data);
-            // if ((event.data).includes("error")) {
-            //     showRES_failure(Or_msg)
-            // } else {
-            //     showRES_success(Or_msg)
-            // }
         }
 
         request_json ='{"action": "get","path": "Vehicle/Speed1","filter": {"op-type":"metadata", "op-value":"static"},"requestId": "5688"}'
