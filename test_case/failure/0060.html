@@ -80,7 +80,7 @@
         let path = "Vehicle/Cabin/Door"
         let url = protocol + "://" + host + "/" + path
         let header = {}
-        let params = 'filter={"op-type":"pathdds", "op-value":["Row1/Left/IsOpen","Row1/Left/IsLocked"]}';
+        let params = 'filter={"op-type":"paths", "op-value":["Row1/Left/IsOpffen","Row1/Left/IsLocked"]}';
         if (params.length > 0) {
             console.log(params.length)
             url = url + "?" + params
