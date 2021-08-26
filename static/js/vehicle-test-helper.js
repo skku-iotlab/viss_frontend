@@ -567,6 +567,10 @@ function helper_terminate_success_for_https(_msg, _status_msg, _header, _data) {
   }, TIME_FINISH_WAIT); // wait time to let human read the result.
 }
 
+function helper_terminate_success_for_https_test(_msg, _status_msg, _header, _data) {
+  addLogSuccessForHTTPS(_msg, _status_msg, _header, _data);
+ 
+}
 
 function helper_terminate_failure_for_https(_msg, _status_msg, _header, _data) {
   addLogFailureForHTTPS(_msg, _status_msg, _header, _data);
