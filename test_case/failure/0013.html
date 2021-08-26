@@ -51,8 +51,7 @@
             var result = tmp.substr(1, tmp.length - 2)
 
 
-            msg = '<div style="font-size:20px; background-color:#00CC00;">'
-                + "<br>"
+            msg = '<br><div style="font-size:20px; background-color:#00CC00;">'
                 + "SUCCESS : Get response received."
 
 
@@ -113,9 +112,6 @@
                 var response_data = JSON.parse(this.response);
                 access_token = response_data['access']
                 var header = getResponseHeaderMap(this)
-                console.log(this)
-                console.log(header)
-
             }
         };
         // REST API 
@@ -135,21 +131,12 @@
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
-                var response_data = JSON.parse(this.response);
-                console.log(response_data)
                 var header = getResponseHeaderMap(this)
                 var status_msg = "HTTP/1.1 " + this.status + " " + this.statusText
                 var success = true
-                console.log(this.getAllResponseHeaders())
-                t.step_func(function () {
-                    success = isGetSuccessResponseForHTTPS(response_data.data)
-                    if (success) {
-                        //assert_true(true, "Get response received. value = " + response_data.data.dp.value);
-                        helper_terminate_success_for_https("Get response received. ", status_msg, header, response_data);
-                    } else {
-                        helper_terminate_failure("Get method failed");
-                    }
-                })();
+                var tmp = JSON.parse(this.response);
+                Or_msg.push(tmp)
+                showRES_success(status_msg, header, Or_msg)
             } else if (this.readyState == 4) {
                 clearInterval(interVal)
                 var response_data = JSON.parse(this.response)
@@ -168,7 +155,6 @@
         header['Authorization'] = 'Bearer ' + access_token
         let params = ''
         if (params.length > 0) {
-            console.log(params.length)
             url = url + "?" + params
             path = path + "?" + params
         }
@@ -188,11 +174,10 @@
     let access_token = ''
     // getAccessToken()
     // executeRestAPIWithAccessToken(access_token)
-    var count=0
+    var count = 0
 
     var interVal = setInterval(() => {
         count++
-        console.log("sent "+count)
         getAccessToken()
         executeRestAPIWithAccessToken(access_token)
     }, 500)
