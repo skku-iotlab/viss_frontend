@@ -1,18 +1,19 @@
 <!DOCTYPE HTML>
 <meta charset="utf-8">
 <title>
-    [0012_test: Send too many request in short period of time without async t]
+    [0013: Attempt too many authorization in short period of time]
 </title>
+
 <link rel="help" href="https://www.w3.org/TR/vehicle-information-service/#idl-def-getrequest">
 <link rel="stylesheet" type="text/css" href="/css/style-general.css">
 
-<!-- <script src="/js/testharness.js"></script> -->
-<!-- <script src="/js/testharnessreport.js"></script> -->
+<script src="/js/testharness.js"></script>
+<script src="/js/testharnessreport.js"></script>
 <script src="/js/vehicle-test-config.js"></script>
 <script src="/js/vehicle-test-helper.js"></script>
 
 <div id="test-title">
-    [0012_test: Send too many request in short period of time without async t]
+    [0013: Attempt too many authorization in short period of time]
 </div>
 <br>
 <div id="test-assertion">
@@ -31,11 +32,8 @@
     <b>Expected Result:</b><br>
     - Received a response containing the requested value(s) and a ts (i.e., timestamp). <br>
 </div>
-
 <div id="request"></div>
-
 <div id="result"></div>
-<div id="response"></div>
 <br>
 <div id="log"></div>
 
@@ -44,33 +42,37 @@
     var Or_msg = []
 
     function showRES_success(status_msg, header, Or_msg) {
+
         var msg = document.getElementById('result').innerHTML;
-        var tmp = JSON.stringify(Or_msg)
-        var result = tmp.substr(1, tmp.length - 2)
+        if (status_msg == "") {
+            msg = ""
+        } else {
+            var tmp = JSON.stringify(Or_msg)
+            var result = tmp.substr(1, tmp.length - 2)
 
 
-        msg =
-            '<div style="font-size:20px; background-color:#00CC00;">'
-            + "<br>"
-            + "SUCCESS : Get response received."
+            msg = '<div style="font-size:20px; background-color:#00CC00;">'
+                + "<br>"
+                + "SUCCESS : Get response received."
 
 
-        msg = msg
-            + "<br></br>"
-            + "Response : <br>"
-            + status_msg + "<br>";
-
-        for (var key in header) {
-            //console.log(key + ": " + _header[key])
             msg = msg
-                + key + ": " + header[key] +"<br>"
-        }
+                + "<br></br>"
+                + "Response : <br>"
+                + status_msg + "<br>";
 
-        msg = msg
-            + result
-            + '</div>'
-            + '<div style="font-size:20px; background-color:#00CC00;">';
-        document.getElementById('result').innerHTML = msg;
+            for (var key in header) {
+                //console.log(key + ": " + _header[key])
+                msg = msg
+                    + key + ": " + header[key] + "<br>"
+            }
+
+            msg = msg
+                + result
+                + '</div>'
+                + '<div style="font-size:20px; background-color:#00CC00;">';
+            document.getElementById('result').innerHTML = msg;
+        }
     }
 
     function showRES_failure(Or_msg) {
@@ -104,59 +106,96 @@
         return headers;
     }
 
-    function executeRestAPI() {
+    function getAccessToken() {
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
+                var response_data = JSON.parse(this.response);
+                access_token = response_data['access']
+                var header = getResponseHeaderMap(this)
+                console.log(this)
+                console.log(header)
+
+            }
+        };
+        // REST API 
+        let request = "POST"
+        let protocol = "http"
+        let host = "127.0.0.1:8000"
+        let path = "api/token"
+        let url = protocol + "://" + host + "/" + path
+        let data = new FormData();
+        data.append('username', 'skku');
+        data.append('password', 'skku');
+        xhttp.open(request, url, false);
+        xhttp.send(data);
+    }
+
+    function executeRestAPIWithAccessToken(access_token) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                var response_data = JSON.parse(this.response);
+                console.log(response_data)
                 var header = getResponseHeaderMap(this)
                 var status_msg = "HTTP/1.1 " + this.status + " " + this.statusText
-                var tmp = JSON.parse(this.response);
-                Or_msg.push(tmp)
-                console.log(Or_msg)
-                showRES_success(status_msg, header, Or_msg)
-                if (Or_msg.length > 10) {
-                    clearInterval(interVal)
-                }
+                var success = true
+                console.log(this.getAllResponseHeaders())
+                t.step_func(function () {
+                    success = isGetSuccessResponseForHTTPS(response_data.data)
+                    if (success) {
+                        //assert_true(true, "Get response received. value = " + response_data.data.dp.value);
+                        helper_terminate_success_for_https("Get response received. ", status_msg, header, response_data);
+                    } else {
+                        helper_terminate_failure("Get method failed");
+                    }
+                })();
             } else if (this.readyState == 4) {
                 clearInterval(interVal)
                 var response_data = JSON.parse(this.response)
                 var header = getResponseHeaderMap(this)
                 var status_msg = "HTTP/1.1 " + this.status + " " + this.statusText
-                showRES_failure("Get method failed : " + Or_msg)
                 helper_terminate_failure_for_https("Get method failed ", status_msg, header, response_data);
             }
         };
-
-
         // REST API 
         let request = "GET"
         let protocol = "http"
         let host = "127.0.0.1:8000"
-        let path = "Vehicle/Speed"
+        let path = "Vehicle/AverageSpeed"
         let url = protocol + "://" + host + "/" + path
         let header = {}
+        header['Authorization'] = 'Bearer ' + access_token
         let params = ''
         if (params.length > 0) {
             console.log(params.length)
             url = url + "?" + params
             path = path + "?" + params
         }
-        console.log(url)
         // addLogRequestMessageForHTTPS(request + " /" + path + " HTTP/1.1", host, header)
         var req = request + " /" + path + " HTTP/1.1 "
         showREQ(req, host)
         xhttp.open(request, url, true);
+        for (let key in header) {
+            xhttp.setRequestHeader(key, header[key]);
+        }
         xhttp.send();
     }
 
 
-    // var t = async_test("Get success case");
+    var t = async_test("Get success case");
+
+    let access_token = ''
+    // getAccessToken()
+    // executeRestAPIWithAccessToken(access_token)
+    var count=0
 
     var interVal = setInterval(() => {
-        console.log("sent")
-        executeRestAPI()
+        count++
+        console.log("sent "+count)
+        getAccessToken()
+        executeRestAPIWithAccessToken(access_token)
     }, 500)
-
 
 </script>
 
