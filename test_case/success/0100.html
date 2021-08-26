@@ -104,6 +104,7 @@
         let url = protocol + "://" + host + "/" + path
         let header = {}
         header['Authorization'] = 'Bearer ' + access_token
+        header['content-type'] = 'application/json'
         let params = 'filter={"op-type":"metadata", "op-value":"static"}';
         if (params.length > 0) {
             url = url + "?" + params
