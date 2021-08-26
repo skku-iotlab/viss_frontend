@@ -41,7 +41,6 @@
     var vehicle = new WebSocket("ws://localhost:3002");
     //3001 : secured
     var request_json = ""
-    var Or_msg = []
 
     function showRES_success(Or_msg) {
         var msg = document.getElementById('result').innerHTML;
@@ -65,30 +64,28 @@
     }
 
     function showREQ(Or_msg) {
-        var rq_msg = document.getElementById('request').innerHTML;
-        rq_msg = "<br>"
+        var msg = document.getElementById('request').innerHTML;
+        msg = "<br>"
             + '<div style="font-size:20px; background-color:#E56D29;">'
-            + "REQUEST : " + request_json
+            + "REQUEST : " + Or_msg
             + '</div>';
-        document.getElementById('request').innerHTML = rq_msg;
+        document.getElementById('request').innerHTML = msg;
     }
 
     vehicle.onopen = function () {
         vehicle.onmessage = function (event) {
             var tmp = JSON.parse(event.data);
-            console.log(tmp)
             subId = tmp.subscriptionId
-            Or_msg.push(tmp)
             if ((event.data).includes("error")) {
                 showRES_failure(Or_msg)
             } else {
                 if (tmp.action === "subscribe") {
-                    console.log(subId)
                     uns_request_json = '{"action": "unsubscribe", "subscriptionId": "' + subId + '", "requestId": "6578"}'
                     vehicle.send(uns_request_json);
                     showREQ(uns_request_json)
+                }else if(tmp.action === "unsubscribe"){
+                    showRES_success(tmp)
                 }
-                showRES_success(Or_msg)
             }
         }
         request_json = '{"action": "subscribe","path": "Vehicle/Speed","filter": { "op-type": "capture", "op-value": "time-based", "op-extra": { "period": "3" } },"requestId": "5688"}'
