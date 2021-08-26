@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <meta charset="utf-8">
 <title>
-    [0100: Service discovery read a vss datapoint with a valid request and autorization token]
+    [0111: Failed to update a vss datapoint due to invalid path]
 </title>
 <link rel="help" href="https://www.w3.org/TR/vehicle-information-service/#idl-def-getrequest">
 <link rel="stylesheet" type="text/css" href="/css/style-general.css">
@@ -12,7 +12,7 @@
 <script src="/js/vehicle-test-helper.js"></script>
 
 <div id="test-title">
-    [0100: Service discovery read a vss datapoint with a valid request and autorization token]
+    [0111: Failed to update a vss datapoint due to invalid path]
 </div>
 <br>
 <div id="test-assertion">
@@ -50,29 +50,7 @@
         return headers;
     }
 
-    function getAccessToken() {
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                var response_data = JSON.parse(this.response);
-                access_token = response_data['access']
-                var header = getResponseHeaderMap(this)
-            }
-        };
-        // REST API 
-        let request = "POST"
-        let protocol = "http"
-        let host = "127.0.0.1:8000"
-        let path = "api/token"
-        let url = protocol + "://" + host + "/" + path
-        let data = new FormData();
-        data.append('username', 'skku');
-        data.append('password', 'skku');
-        xhttp.open(request, url, false);
-        xhttp.send(data);
-    }
-
-    function executeRestAPIWithAccessToken(access_token) {
+    function executeRestAPI() {
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
@@ -81,7 +59,7 @@
                 var status_msg = "HTTP/1.1 " + this.status + " " + this.statusText
                 var success = true
                 t.step_func(function () {
-                    success = isGetSuccessResponseForHTTPS(response_data)
+                    success = isSetSuccessResponseForHTTPS(response_data)
                     if (success) {
                         helper_terminate_success_for_https("Get response received. ", status_msg, header, response_data);
                     } else {
@@ -96,29 +74,31 @@
             }
         };
         // REST API 
-        let request = "GET"
+        let request = "POST"
         let protocol = "http"
         let host = "127.0.0.1:8000"
-        let path = "Vehicle/Body/BodyType"
+        let path = "Vehicle/Powertrain/Transmission/PerformanceMode_NO"
         let url = protocol + "://" + host + "/" + path
         let header = {}
-        header['Authorization'] = 'Bearer ' + access_token
-        let params = 'filter={"op-type":"metadata", "op-value":"static"}';
+        let params = ''
         if (params.length > 0) {
             url = url + "?" + params
             path = path + "?" + params
         }
-        addLogRequestMessageForHTTPS(request + " /" + path + " HTTP/1.1", host, header)
+        let data = new FormData();
+        data.append('value', 'sport');
+        let dict_data = { 'value': 'sport' }
+
+        addLogRequestMessageForHTTPS(request + " /" + path + " HTTP/1.1", host, header, dict_data)
         xhttp.open(request, url, true);
-        for (let key in header) {
-            xhttp.setRequestHeader(key, header[key]);
-        }
-        xhttp.send();
+        xhttp.send(data);
     }
+
+
     var t = async_test("Get success case");
-    let access_token = ''
-    getAccessToken()
-    executeRestAPIWithAccessToken(access_token)
+
+    executeRestAPI()
+
 </script>
 
 </html>

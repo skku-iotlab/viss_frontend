@@ -100,37 +100,44 @@ function isGetSuccessResponseForHTTPS(_inJson) {
   // TODO: better to check with Json schema
   // getSuccessResponse has action?
   let success = true
-  if (Array.isArray(_inJson.dp) == false) {
-    if ('path' in _inJson &&
-      'ts' in _inJson.dp &&      //'timestamp' exists
-      'value' in _inJson.dp &&          //'value' exists
-      _inJson.error === undefined)           //'error' exists
-    {
-      return true;
-    } else {
-      return false;
-    }
+
+  if ("metadata" in _inJson && "ts" in _inJson) {
+    return true
   } else {
-
-    console.log(_inJson)
-    if ('path' in _inJson) {
-      console.log('path success')
-    } else {
-      success = false
-    }
-
-    for (_inJson of _inJson.dp) {
-      if ('ts' in _inJson &&      //'timestamp' exists
-        'value' in _inJson &&          //'value' exists
+    if (Array.isArray(_inJson.dp) == false) {
+      if ('path' in _inJson &&
+        'ts' in _inJson.dp &&      //'timestamp' exists
+        'value' in _inJson.dp &&          //'value' exists
         _inJson.error === undefined)           //'error' exists
       {
-        console.log('success')
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      if ('path' in _inJson) {
+        console.log('path success')
       } else {
         success = false
       }
+
+      for (_inJson of _inJson.dp) {
+        if ('ts' in _inJson &&      //'timestamp' exists
+          'value' in _inJson &&          //'value' exists
+          _inJson.error === undefined)           //'error' exists
+        {
+          console.log('success')
+        } else {
+          success = false
+        }
+      }
+      return success
     }
-    return success
+
   }
+
+
+
 }
 ////////////////////////////////////////////////////////////////////
 
