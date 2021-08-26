@@ -8,7 +8,6 @@
 <link rel="help" href="https://www.w3.org/TR/vehicle-information-service/#idl-def-getrequest">
 <link rel="stylesheet" type="text/css" href="/css/style-general.css">
 
-
 <script src="/js/testharness.js"></script>
 <script src="/js/testharnessreport.js"></script>
 <script src="/js/vehicle-test-config.js"></script>
@@ -20,7 +19,7 @@
 <br>
 <div id="test-assertion">
     <b>Test assertion:</b><br>
-    When the client makes getRequest to the server,<br>
+    When the client makes getRequest to the server without filter,<br>
     a JSON data object that contain timestamp and vss data will return as response.<br>
 </div>
 <div id="scenario">
@@ -31,7 +30,7 @@
     3. Confirm response containing the specified action, requestId and data from correct path.<br>
     <br>
     <b>Expected Result:</b><br>
-    - Received 'GetSuccessResponse' containing specified requestId.
+    - Received 'getSuccessResponse' containing specified requestId.
 </div>
 <div id="request"></div>
 
