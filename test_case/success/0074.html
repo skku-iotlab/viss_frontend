@@ -17,19 +17,20 @@
 <br>
 <div id="test-assertion">
     <b>Test assertion:</b><br>
-    When the client makes a request with a correct 'get' action<br>
-    without wildcards to the server,<br>
-    a JSON data object defined as 'getSuccessResponseForHTTPS' is returned.<br>
+    When the client makes getRequest to the authorization-needed server with correct authorization token<br>
+    and filter containing "history" op-type and currect op-value,<br>
+    a JSON data object that contain timestamp and multiple vss data will return as response.<br>
 </div>
 <div id="scenario">
     <br>
     <b>Test Scenario:</b><br>
-    1. Execute 'get' method specifing a data path.<br>
-    (e.g. 'Vehicle/Speed')<br>
-    2. Confirm 'GetSuccessResponseForHTTPS'.<br>
+    1. Send API POST request to server, for issue a JWT.<br>
+    2. Receive JWT from server as response.<br>
+    3. Send getRequest specifying an action, data path, requestId, filter and JWT.<br>
+    4. Confirm response containing the specified action, requestId, data from correct path that satisfy the given filter.<br>
     <br>
     <b>Expected Result:</b><br>
-    - Received a response containing the requested value(s) and a ts (i.e., timestamp). <br>
+    - Received 'getSuccessResponse' containing specified requestId.
 </div>
 
 <div id="result"></div>
