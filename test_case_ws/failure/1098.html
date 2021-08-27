@@ -18,18 +18,18 @@
 </div>
 <br>
 <div id="test-assertion">
-    When the client makes incorrect path getRequest to the server with filter containing "metadata" op-type and "dynamic" op-value,<br>
-    [404 Invalid Path] error returned.<br>
+    When the client makes getRequest to the server with incorrect filter containing "static" op-value,<br>
+    [404 Filter Invalid] error returned.<br>
 </div>
 <div id="scenario">
     <br>
     <b>Test Scenario:</b><br>
     1. Open a websocket connection.<br>
-    2. Send getRequest specifying an action, invalid data path and requestId.<br>
-    3. Confirm [404 Invalid Path] error response.<br>
+    2. Send getRequest specifying an action, data path, requestId and incorrect filter.<br>
+    3. Confirm [404 Filter Invalid] error response.<br>
     <br>
     <b>Expected Result:</b><br>
-    - Received [404 Invalid Path] error response.
+    - Received [404 Filter Invalid] error response.
 </div>
 <div id="request"></div>
 
