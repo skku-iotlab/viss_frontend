@@ -17,19 +17,17 @@
 <br>
 <div id="test-assertion">
     <b>Test assertion:</b><br>
-    When the client makes a request with a correct 'get' action<br>
-    without wildcards to the server,<br>
-    a JSON data object defined as 'getSuccessResponseForHTTPS' is returned.<br>
+    When the client makes getRequest to the server with filter containing "paths" op-type and incorrect single op-value,<br>
+    [404 Invalid Path] error returned.<br>
 </div>
 <div id="scenario">
     <br>
     <b>Test Scenario:</b><br>
-    1. Execute 'get' method specifing a data path.<br>
-    (e.g. 'Vehicle/Speed')<br>
-    2. Confirm 'GetSuccessResponseForHTTPS'.<br>
+    1. Send getRequest specifying an action, data path, requestId and incorrect filter.<br>
+    2. Confirm [404 Invalid Path] error response.<br>
     <br>
     <b>Expected Result:</b><br>
-    - Received a response containing the requested value(s) and a ts (i.e., timestamp). <br>
+    - Received [404 Invalid Path] error response.
 </div>
 
 <div id="result"></div>
