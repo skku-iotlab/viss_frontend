@@ -19,9 +19,9 @@
 <div id="test-assertion">
     <b>Test assertion:</b><br>
     When the client makes getRequest to the authorization-needed server with correct authorization token<br>
-    and filter containing "paths" op-type and correct op-value,<br>
+    and filter containing "paths" type and correct value,<br>
     a JSON data object that contain timestamp and multiple vss data will return as response.<br>
-    In this case, op-value is single vss path, no-wildcard.
+    In this case, value is single vss path, no-wildcard.
 </div>
 <div id="scenario">
     <br>
@@ -124,7 +124,7 @@
 
         getAccessToken()
         //request_json = '{"action":"get","path":"Vehicle/Speed" ,"authorization":' + JSON.stringify(access_token) + ',"requestId":"5688"}';
-        request_json = '{"action":"get","path":"Vehicle/Cabin/Door","filter":{"op-type":"paths","op-value":"*/*/IsOpen"},"authorization":"' + access_token + '","requestId":"5688"}';
+        request_json = '{"action":"get","path":"Vehicle/Cabin/Door","filter":{"type":"paths","value":"*/*/IsOpen"},"authorization":"' + access_token + '","requestId":"5688"}';
 
         vehicle.send(request_json);
         showREQ(request_json)

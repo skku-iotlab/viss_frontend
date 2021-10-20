@@ -18,7 +18,7 @@
 <div id="test-assertion">
     <b>Test assertion:</b><br>
     When the client makes getRequest to the authorization-needed server with correct authorization token<br>
-    and filter containing "metadata" op-type and correct op-value,<br>
+    and filter containing "metadata" op-type and correct value,<br>
     a JSON data object that contain timestamp and multiple vss data will return as response.<br>
 </div>
 <div id="scenario">
@@ -106,7 +106,7 @@
         let header = {}
         header['Authorization'] = 'Bearer ' + access_token
         header['content-type'] = 'application/json'
-        let params = 'filter={"op-type":"metadata", "op-value":"static"}';
+        let params = 'filter={"type":"static-metadata", "value":""}';
         if (params.length > 0) {
             url = url + "?" + params
             path = path + "?" + params

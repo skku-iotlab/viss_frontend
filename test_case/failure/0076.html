@@ -17,7 +17,7 @@
 <br>
 <div id="test-assertion">
     <b>Test assertion:</b><br>
-    When the client makes getRequest to the authorization-needed server with filter containing "history" op-type and correct op-value, and expired authorization token,<br>
+    When the client makes getRequest to the authorization-needed server with filter containing "history" type and correct value, and expired authorization token,<br>
     [401 Token Expired] error returned.<br>
 </div>
 <div id="scenario">
@@ -111,7 +111,7 @@
         let url = protocol + "://" + host + "/" + path
         let header = {}
         header['Authorization'] = 'Bearer ' + access_token
-        let params = 'filter={"op-type":"history", "op-value":"P2DT12H"}';
+        let params = 'filter={"type":"history", "value":"P2DT12H"}';
         if (params.length > 0) {
             console.log(params.length)
             url = url + "?" + params

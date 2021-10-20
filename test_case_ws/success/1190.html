@@ -86,7 +86,7 @@
             }
         }
 
-        request_json = '{"action": "subscribe","path": "Vehicle/OBD/FuelLevel","filter": { "op-type": "capture", "op-value": "curve-logging", "op-extra": { "max-err": "0.1", "buf-size": "5" } },"requestId": "6578"}'
+        request_json = '{"action": "subscribe","path": "Vehicle/OBD/FuelLevel","filter": { "type": "curvelog", "value": { "maxerr": "0.1", "bufsize": "10" } },"requestId": "6578"}'
         vehicle.send(request_json);
         showREQ(request_json)
     }

@@ -121,7 +121,7 @@
         }
 
         getAccessToken()
-        request_json = '{"action": "subscribe","path": "Vehicle/Speed","filter": { "op-type": "capture", "op-value": "time-based", "op-extra": { "period": "3" } },"authorization":"invalid_token","requestId": "5688"}'
+        request_json = '{"action": "subscribe","path": "Vehicle/Speed","filter": {  "type": "timebased", "value": {"period": "3"} },"authorization":"invalid_token","requestId": "5688"}'
 
         vehicle.send(request_json);
         showREQ(request_json)

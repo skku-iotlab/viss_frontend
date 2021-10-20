@@ -128,7 +128,7 @@
 
         getAccessToken()
 
-        request_json = '{"action": "subscribe","path": "Vehicle/OBD/FuelLevel","filter": { "op-type": "capture", "op-value": "change", "op-extra": { "logic-op": "gt", "diff": "0.1" } },"authorization":"'+access_token+'","requestId": "6578"}'
+        request_json = '{"action": "subscribe","path": "Vehicle/OBD/FuelLevel","filter": { "type": "change", "value": { "logic-op": "what", "diff": "0.1" } },"authorization":"'+access_token+'","requestId": "6578"}'
         showREQ(request_json)
 
         sleep(1500).then(() => {

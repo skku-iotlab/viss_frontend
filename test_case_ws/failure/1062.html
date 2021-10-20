@@ -19,7 +19,7 @@
 <br>
 <div id="test-assertion">
     <b>Test assertion:</b><br>
-    When the client makes getRequest to the authorization-needed server with filter containing "paths" op-type and correct op-value and invalid authorization token,<br>
+    When the client makes getRequest to the authorization-needed server with filter containing "paths" type and correct value and invalid authorization token,<br>
     [401 Token Invalid] error returned.<br>
 </div>
 <div id="scenario">
@@ -120,7 +120,7 @@
         }
 
         getAccessToken()
-        request_json = '{"action":"get","path":"Vehicle/Cabin/Door","filter":{"op-type":"paths","op-value":"*/*/IsOpen"},"authorization":"invalid_token","requestId":"5688"}';
+        request_json = '{"action":"get","path":"Vehicle/Cabin/Door","filter":{"type":"paths","value":"*/*/IsOpen"},"authorization":"invalid_token","requestId":"5688"}';
 
         vehicle.send(request_json);
         showREQ(request_json)

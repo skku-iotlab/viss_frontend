@@ -3,7 +3,7 @@
 <link rel="shortcut icon" href="#">
 <meta charset="utf-8">
 <title>
-    [1056: Search read multiple vss branches with multiple op-values]
+    [1056: Search read multiple vss branches with multiple values]
 </title>
 <link rel="help" href="https://www.w3.org/TR/vehicle-information-service/#idl-def-getrequest">
 <link rel="stylesheet" type="text/css" href="/css/style-general.css">
@@ -14,14 +14,14 @@
 <script src="/js/vehicle-test-helper.js"></script>
 
 <div id="test-title">
-    [1056: Search read multiple vss branches with multiple op-values]
+    [1056: Search read multiple vss branches with multiple values]
 </div>
 <br>
 <div id="test-assertion">
     <b>Test assertion:</b><br>
-    When the client makes getRequest to the server with filter containing "paths" op-type and correct op-value,<br>
+    When the client makes getRequest to the server with filter containing "paths" type and correct value,<br>
     a JSON data object that contain timestamp and multiple vss data will return as response.<br>
-    In this case, op-value is multiple vss path pointing vss branch, no-wildcard.
+    In this case, value is multiple vss path pointing vss branch, no-wildcard.
 </div>
 <div id="scenario">
     <br>
@@ -83,7 +83,7 @@
             })();
         }
 
-        request_json = '{"action":"get","path":"Vehicle/Cabin/Door" ,"filter": {"op-type":"paths", "op-value":["Row1","Row2"]}, "requestId":"5688"}';
+        request_json = '{"action":"get","path":"Vehicle/Cabin/Door" ,"filter": {"type":"paths", "value":["Row1","Row2"]}, "requestId":"5688"}';
         vehicle.send(request_json);
         showREQ(request_json)
     }

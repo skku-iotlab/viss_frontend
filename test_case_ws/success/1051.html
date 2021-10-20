@@ -19,9 +19,9 @@
 <br>
 <div id="test-assertion">
     <b>Test assertion:</b><br>
-    When the client makes getRequest to the server with filter containing "paths" op-type and correct op-value,<br>
+    When the client makes getRequest to the server with filter containing "paths" type and correct value,<br>
     a JSON data object that contain timestamp and multiple vss data will return as response.<br>
-    In this case, op-value is single vss path with wildcard.
+    In this case, value is single vss path with wildcard.
 </div>
 <div id="scenario">
     <br>
@@ -86,7 +86,7 @@
             })();
         }
 
-        request_json = '{"action":"get","path":"Vehicle/Cabin/Door" ,"filter": {"op-type":"paths", "op-value":"*/*/IsOpen"}, "requestId":"5688"}';
+        request_json = '{"action":"get","path":"Vehicle/Cabin/Door" ,"filter": {"type":"paths", "value":"*/*/IsOpen"}, "requestId":"5688"}';
         vehicle.send(request_json);
         showREQ(request_json)
     }

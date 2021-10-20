@@ -19,7 +19,7 @@
 <br>
 <div id="test-assertion">
     <b>Test assertion:</b><br>
-    When the client makes incorrect path getRequest to the server with filter containing "metadata" op-type and "static" op-value,<br>
+    When the client makes incorrect path getRequest to the server with filter containing "metadata" type and "static" value,<br>
     [404 Invalid Path] error returned.<br>
 </div>
 <div id="scenario">
@@ -82,7 +82,7 @@
             })();
         }
 
-        request_json ='{"action": "get","path": "Vehicle/Speed1","filter": {"op-type":"metadata", "op-value":"static"},"requestId": "5688"}'
+        request_json ='{"action": "get","path": "Vehicle/Speed1","filter": {"type":"static-metadata", "value":""},"requestId": "5688"}'
         vehicle.send(request_json);
         showREQ(request_json)
     }

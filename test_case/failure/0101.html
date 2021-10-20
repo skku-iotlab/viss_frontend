@@ -17,7 +17,7 @@
 <br>
 <div id="test-assertion">
     <b>Test assertion:</b><br>
-    When the client makes getRequest to the authorization-needed server with filter containing "metadata" op-type and correct op-value, and invalid authorization token,<br>
+    When the client makes getRequest to the authorization-needed server with filter containing "metadata" type and correct value, and invalid authorization token,<br>
     [401 Token Invalid] error returned.<br>
 </div>
 <div id="scenario">
@@ -101,7 +101,7 @@
         let url = protocol + "://" + host + "/" + path
         let header = {}
         header['Authorization'] = 'Bearer ' + access_token +1
-        let params = 'filter={"op-type":"metadata", "op-value":"static"}';
+        let params = 'filter={"type":"static-metadata", "value":""}';
         if (params.length > 0) {
             url = url + "?" + params
             path = path + "?" + params

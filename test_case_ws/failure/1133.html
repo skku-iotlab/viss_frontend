@@ -3,7 +3,7 @@
 <link rel="shortcut icon" href="#">
 <meta charset="utf-8">
 <title>
-    [1133: Failed to subscribe a vss datapoint with time-based capture filter due to invalid op-type]
+    [1133: Failed to subscribe a vss datapoint with time-based capture filter due to invalid type]
 </title>
 <link rel="help" href="https://www.w3.org/TR/vehicle-information-service/#idl-def-getrequest">
 <link rel="stylesheet" type="text/html" href="../../static/css/style-general.css">
@@ -14,12 +14,12 @@
 <script src="/js/vehicle-test-helper.js"></script>
 
 <div id="test-title">
-    [1133: Failed to subscribe a vss datapoint with time-based capture filter due to invalid op-type]
+    [1133: Failed to subscribe a vss datapoint with time-based capture filter due to invalid type]
 </div>
 <br>
 <div id="test-assertion">
     <b>Test assertion:</b><br>
-    When the client makes subscribeRequest to the server with invalid op-type time-based capture filter,<br>
+    When the client makes subscribeRequest to the server with invalid type time-based capture filter,<br>
     [400 Filter Invalid] error returned.<br>
 </div>
 <div id="scenario">
@@ -82,7 +82,7 @@
                 showRES_success(Or_msg)
             }
         }
-        request_json = '{"action": "subscribe","path": "Vehicle/Speed","filter": { "op-type": "casspture", "op-value": "time-based", "op-extra": { "period": "3" } },"requestId": "5688"}'
+        request_json = '{"action": "subscribe","path": "Vehicle/Speed","filter": { "type": "timebased11", "value": { "period": "3" } },"requestId": "5688"}'
         vehicle.send(request_json);
         showREQ(request_json)
     }

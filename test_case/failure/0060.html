@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <meta charset="utf-8">
 <title>
-    [0060: Failed to search read multiple vss datapoints with mulitple op-values due to one op-value is incorrect]
+    [0060: Failed to search read multiple vss datapoints with mulitple values due to one value is incorrect]
 </title>
 <link rel="help" href="https://www.w3.org/TR/vehicle-information-service/#idl-def-getrequest">
 <link rel="stylesheet" type="text/css" href="/css/style-general.css">
@@ -12,14 +12,14 @@
 <script src="/js/vehicle-test-helper.js"></script>
 
 <div id="test-title">
-    [0060: Failed to search read multiple vss datapoints with multiple op-values due to one op-value is incorrect]
+    [0060: Failed to search read multiple vss datapoints with multiple values due to one value is incorrect]
 </div>
 <br>
 <div id="test-assertion">
     <b>Test assertion:</b><br>
-    When the client makes getRequest to the server with filter containing "paths" op-type and incorrect op-value,<br>
+    When the client makes getRequest to the server with filter containing "paths" type and incorrect value,<br>
     [404 Invalid Path] error returned.<br>
-    In this case, a single op-value inside op-value list is incorrect.
+    In this case, a single value inside value list is incorrect.
 </div>
 <div id="scenario">
     <br>
@@ -79,7 +79,7 @@
         let path = "Vehicle/Cabin/Door"
         let url = protocol + "://" + host + "/" + path
         let header = {}
-        let params = 'filter={"op-type":"paths", "op-value":["Row1/Left/IsOpffen","Row1/Left/IsLocked"]}';
+        let params = 'filter={"type":"paths", "value":["Row1/Left/IsOpffen","Row1/Left/IsLocked"]}';
         if (params.length > 0) {
             console.log(params.length)
             url = url + "?" + params

@@ -3,7 +3,7 @@
 <link rel="shortcut icon" href="#">
 <meta charset="utf-8">
 <title>
-    [1059: Failed to search read a vss datapoint due to single incorrect op-value]
+    [1059: Failed to search read a vss datapoint due to single incorrect value]
 </title>
 <link rel="help" href="https://www.w3.org/TR/vehicle-information-service/#idl-def-getrequest">
 <link rel="stylesheet" type="text/css" href="/css/style-general.css">
@@ -14,12 +14,12 @@
 <script src="/js/vehicle-test-helper.js"></script>
 
 <div id="test-title">
-    [1059: Failed to search read a vss datapoint due to single incorrect op-value]
+    [1059: Failed to search read a vss datapoint due to single incorrect value]
 </div>
 <br>
 <div id="test-assertion">
     <b>Test assertion:</b><br>
-    When the client makes getRequest to the server with filter containing "paths" op-type and incorrect single op-value,<br>
+    When the client makes getRequest to the server with filter containing "paths" type and incorrect single value,<br>
     [404 Invalid Path] error returned.<br>
 </div>
 <div id="scenario">
@@ -82,7 +82,7 @@
             })();
         }
         // getAccessToken()
-        request_json = '{"action":"get","path":"Vehicle/Cabin/Door","filter":{"op-type":"paths","op-value":"*/*/Isnono"},"requestId":"5688"}';
+        request_json = '{"action":"get","path":"Vehicle/Cabin/Door","filter":{"type":"paths","value":"*/*/Isnono"},"requestId":"5688"}';
         vehicle.send(request_json);
         showREQ(request_json)
     }

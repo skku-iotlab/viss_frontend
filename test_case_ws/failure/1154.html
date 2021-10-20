@@ -19,7 +19,7 @@
 <br>
 <div id="test-assertion">
     <b>Test assertion:</b><br>
-    When the client makes subscribeRequest to the server with invalid op-type time-based capture filter,<br>
+    When the client makes subscribeRequest to the server with invalid type time-based capture filter,<br>
     [400 Filter Invalid] error returned.<br>
 </div>
 <div id="scenario">
@@ -83,7 +83,7 @@
             }
         }
 
-        request_json = '{"action": "subscribe","path": "Vehicle/Speed","filter": { "op-type": "capture", "op-value": "change", "op-extra": { "logic-op": "gt", "diff": "what" } },"requestId": "6578"}'
+        request_json = '{"action": "subscribe","path": "Vehicle/Speed","filter": { "type": "change", "value": { "logic-op": "gt", "diff": "what" } },"requestId": "6578"}'
         vehicle.send(request_json);
         showREQ(request_json)
     }

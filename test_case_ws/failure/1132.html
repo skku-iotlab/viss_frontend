@@ -82,7 +82,7 @@
                 showRES_success(Or_msg)
             }
         }
-        request_json = '{"action": "subscribe","path": "Vehicle/Speed123","filter": { "op-type": "capture", "op-value": "time-based", "op-extra": { "period": "3" } },"requestId": "5688"}'
+        request_json = '{"action": "subscribe","path": "Vehicle/Speed123","filter": { "type": "timebased", "value": { "period": "3" }},"requestId": "5688"}'
         vehicle.send(request_json);
         showREQ(request_json)
     }

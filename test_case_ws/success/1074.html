@@ -20,7 +20,7 @@
 <div id="test-assertion">
     <b>Test assertion:</b><br>
     When the client makes getRequest to the authorization-needed server with correct authorization token<br>
-    and filter containing "history" op-type and correct op-value,<br>
+    and filter containing "history" type and correct value,<br>
     a JSON data object that contain timestamp and multiple vss data will return as response.<br>
 </div>
 <div id="scenario">
@@ -123,7 +123,7 @@
         }
 
         getAccessToken()
-        request_json ='{"action": "get","path": "Vehicle/Speed","filter": {"op-type":"history", "op-value":"P2DT12H"},"authorization":"' + access_token + '","requestId": "5688"}'
+        request_json ='{"action": "get","path": "Vehicle/Speed","filter": {"type":"history", "value":"P2DT12H"},"authorization":"' + access_token + '","requestId": "5688"}'
         vehicle.send(request_json);
         showREQ(request_json)
     }

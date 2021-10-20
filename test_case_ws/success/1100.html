@@ -21,7 +21,7 @@
 <div id="test-assertion">
     <b>Test assertion:</b><br>
     When the client makes getRequest to the authorization-needed server with correct authorization token<br>
-    and filter containing "metadata" op-type and correct op-value,<br>
+    and filter containing "metadata" type and correct value,<br>
     a JSON data object that contain timestamp and multiple vss data will return as response.<br>
 </div>
 <div id="scenario">
@@ -124,7 +124,7 @@
         }
 
         getAccessToken()
-        request_json ='{"action": "get","path": "Vehicle/Speed","filter": {"op-type":"metadata", "op-value":"static"},"authorization":"' + access_token + '","requestId": "5688"}'
+        request_json ='{"action": "get","path": "Vehicle/Speed","filter": {"type":"static-metadata", "value":""},"authorization":"' + access_token + '","requestId": "5688"}'
         vehicle.send(request_json);
         showREQ(request_json)
     }

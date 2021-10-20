@@ -17,9 +17,9 @@
 <br>
 <div id="test-assertion">
     <b>Test assertion:</b><br>
-    When the client makes getRequest to the server with filter containing "paths" op-type and correct op-value,<br>
+    When the client makes getRequest to the server with filter containing "paths" type and correct value,<br>
     a JSON data object that contain timestamp and multiple vss data will return as response.<br>
-    In this case, op-value is single vss path pointing vss branch with wildcard.
+    In this case, value is single vss path pointing vss branch with wildcard.
 </div>
 <div id="scenario">
     <br>
@@ -83,7 +83,7 @@
         let path = "Vehicle/Cabin/Door"
         let url = protocol + "://" + host + "/" + path
         let header = {}
-        let params = 'filter={"op-type":"paths", "op-value":"*/Left"}';
+        let params = 'filter={"type":"paths", "value":"*/Left"}';
 
         if (params.length > 0) {
             console.log(params.length)

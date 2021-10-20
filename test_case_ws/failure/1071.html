@@ -19,7 +19,7 @@
 <br>
 <div id="test-assertion">
     <b>Test assertion:</b><br>
-    When the client makes incorrect path getRequest to the server with filter containing "history" op-type and correct op-value,<br>
+    When the client makes incorrect path getRequest to the server with filter containing "history" type and correct value,<br>
     [404 Invalid Path] error returned.<br>
 </div>
 <div id="scenario">
@@ -82,7 +82,7 @@
             })();
         }
 
-        request_json ='{"action": "get","path": "Vehicle/Speed1","filter": {"op-type":"history", "op-value":"P2DT12H"},"requestId": "5688"}'
+        request_json ='{"action": "get","path": "Vehicle/Speed1","filter": {"type":"history", "value":"P2DT12H"},"requestId": "5688"}'
         vehicle.send(request_json);
         showREQ(request_json)
     }

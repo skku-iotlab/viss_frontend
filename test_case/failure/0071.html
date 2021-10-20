@@ -17,7 +17,7 @@
 <br>
 <div id="test-assertion">
     <b>Test assertion:</b><br>
-    When the client makes incorrect path getRequest to the server with filter containing "history" op-type and correct op-value,<br>
+    When the client makes incorrect path getRequest to the server with filter containing "history" type and correct value,<br>
     [404 Invalid Path] error returned.<br>
 </div>
 <div id="scenario">
@@ -80,7 +80,7 @@
         let path = "Vehicle/Speeds"
         let url = protocol + "://" + host + "/" + path
         let header = {}
-        let params = 'filter={"op-type":"history", "op-value":"P2DT12H"}';
+        let params = 'filter={"type":"history", "value":"P2DT12H"}';
         if (params.length > 0) {
             console.log(params.length)
             url = url + "?" + params

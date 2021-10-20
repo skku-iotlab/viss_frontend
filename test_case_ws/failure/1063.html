@@ -18,7 +18,7 @@
 <br>
 <div id="test-assertion">
     <b>Test assertion:</b><br>
-    When the client makes getRequest to the authorization-needed server with filter containing "paths" op-type and correct op-value and expired authorization token,<br>
+    When the client makes getRequest to the authorization-needed server with filter containing "paths" type and correct value and expired authorization token,<br>
     [401 Token Expired] error returned.<br>
 </div>
 <div id="scenario">
@@ -127,7 +127,7 @@
         }
 
         getAccessToken()
-        request_json = '{"action":"get","path":"Vehicle/Cabin/Door","filter":{"op-type":"paths","op-value":"*/*/IsOpen"},"authorization":"' + access_token + '","requestId":"5688"}';
+        request_json = '{"action":"get","path":"Vehicle/Cabin/Door","filter":{"type":"paths","value":"*/*/IsOpen"},"authorization":"' + access_token + '","requestId":"5688"}';
         //setting.py => 'ACCESS_TOKEN_LIFETIME': datetime.timedelta(seconds=1), => token 발급하고 1.5초 이후에 vehicle send -> expired token !
         showREQ(request_json)   
         sleep(1500).then(() => {

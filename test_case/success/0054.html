@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <meta charset="utf-8">
 <title>
-    [0054: Search read multiple vss datapoints with multiple op-values]
+    [0054: Search read multiple vss datapoints with multiple values]
 </title>
 <link rel="help" href="https://www.w3.org/TR/vehicle-information-service/#idl-def-getrequest">
 <link rel="stylesheet" type="text/css" href="/css/style-general.css">
@@ -12,14 +12,14 @@
 <script src="/js/vehicle-test-helper.js"></script>
 
 <div id="test-title">
-    [0054: Search read multiple vss datapoints with multiple op-values]
+    [0054: Search read multiple vss datapoints with multiple values]
 </div>
 <br>
 <div id="test-assertion">
     <b>Test assertion:</b><br>
-    When the client makes getRequest to the server with filter containing "paths" op-type and correct op-value,<br>
+    When the client makes getRequest to the server with filter containing "paths" type and correct value,<br>
     a JSON data object that contain timestamp and multiple vss data will return as response.<br>
-    In this case, op-value is multiple vss path, no-wildcard.
+    In this case, value is multiple vss path, no-wildcard.
 </div>
 <div id="scenario">
     <br>
@@ -83,7 +83,7 @@
         let path = "Vehicle/Cabin/Door"
         let url = protocol + "://" + host + "/" + path
         let header = {}
-        let params = 'filter={"op-type":"paths", "op-value":["Row1/Left/IsOpen","Row2/Left/IsOpen"]}';
+        let params = 'filter={"type":"paths", "value":["Row1/Left/IsOpen","Row2/Left/IsOpen"]}';
         if (params.length > 0) {
             console.log(params.length)
             url = url + "?" + params
