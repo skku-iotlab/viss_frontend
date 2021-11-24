@@ -27,7 +27,7 @@
 // - select ws:// or wss:// according to your VISS server
 var VISS_PROTOCOL = "https://";  // or  "https://";
 var VISS_PROTOCOL_WS = "wss://";  // or  "wss://";
-var VISS_HOST = "127.0.0.1";
+var VISS_HOST = "viss.cloud";
 var VISS_PORT = "8000";
 var VISS_PORT_SECURE_WS = "3001";
 var VISS_PORT_UNSECURE_WS = "3002";
