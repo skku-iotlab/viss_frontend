@@ -73,10 +73,9 @@
         };
         // REST API 
         let request = "POST"
-        let protocol = "http"
-        let host = "127.0.0.1:8000"
+        let host = VISS_HOST + ":" + VISS_PORT
         let path = "Vehicle/Speed"
-        let url = protocol + "://" + host + "/" + path
+        let url = VISS_URL + "/" + path
         let header = {}
         let params = ''
         if (params.length > 0) {

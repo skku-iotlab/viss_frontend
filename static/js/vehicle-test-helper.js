@@ -74,6 +74,18 @@ function isMetadataErrorResponse(_reqId, _inJson) {
   }
 }
 
+function isGetSuccessResponseForDynamicMetadata(_inJson) {
+  for (let [key, value] of Object.entries(_inJson.data.metadata)){
+    if (Object.keys(value).length &&
+      _inJson.error === undefined)           //'error' exists
+    {
+      return true;
+    } else {
+      return false;
+    }
+  }
+}
+
 function isGetSuccessResponseForServiceDiscoveryRead(_inJson) {
   if ('metadata' in _inJson &&
     'ts' in _inJson &&

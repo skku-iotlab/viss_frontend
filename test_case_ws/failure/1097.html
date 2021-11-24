@@ -32,7 +32,7 @@
 <br>
 <script>
     var t = async_test("Get success case");
-    var vehicle = new WebSocket("ws://localhost:3002");
+    var vehicle = new WebSocket(VISS_URL_UNSECURE_WS);
     //3001 : secured
     var request_json = ""
 
@@ -67,6 +67,7 @@
         vehicle.onmessage = function (event) {
             var success
             t.step_func(function () {
+                console.log(event.data)
                 success = isGetSuccessResponse(event.data)
                 if (success) {
                     helper_terminate_success("Get response received. ", event.data);
@@ -76,7 +77,7 @@
             })();
         }
 
-        request_json ='{"action": "get","path": "Vehicle/Speed1","filter": {"op-type":"metadata", "op-value":"dynamic", "op-extra":"sample-rate"},"requestId": "5688"}'
+        request_json ='{"action": "get","path": "Vehicle/Speed1","filter": {"type":"dynamic-metadata", "value":"samplerate"},"requestId": "5688"}'
         vehicle.send(request_json);
         showREQ(request_json)
     }

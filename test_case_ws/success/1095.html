@@ -33,7 +33,7 @@
 <br>
 <script>
     var t = async_test("Get success case");
-    var vehicle = new WebSocket("ws://localhost:3002");
+    var vehicle = new WebSocket(VISS_URL_UNSECURE_WS);
     //3001 : secured
     var request_json = ""
 
@@ -77,7 +77,7 @@
             })();
         }
 
-        request_json ='{"action": "get","path": "Vehicle/Speed","filter": {"op-type":"metadata", "op-value":"dynamic","op-extra":"availability+validate"},"requestId": "5688"}'
+        request_json ='{"action": "get","path": "Vehicle/Speed","filter": {"type":"dynamic-metadata", "value":["availability", "validate"]},"requestId": "5688"}'
         vehicle.send(request_json);
         showREQ(request_json)
     }

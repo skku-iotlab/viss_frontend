@@ -36,7 +36,7 @@
 <br>
 <script>
     // var t = async_test("Get success case");
-    var vehicle = new WebSocket("ws://localhost:3001");
+    var vehicle = new WebSocket(VISS_URL_SECURE_WS);
     //3001 : secured
     let access_token = ""
     var request_json = ""
@@ -68,13 +68,10 @@
         };
         // REST API 
         let request = "POST"
-        let protocol = "http"
-        let host = "127.0.0.1:8000"
-        let path = "api/token"
-        let url = protocol + "://" + host + "/" + path
+        let url = VISS_URL_TOKEN
         let data = new FormData();
-        data.append('username', 'skku');
-        data.append('password', 'skku');
+        data.append('username', VISS_USERNAME);
+        data.append('password', VISS_PASSWORD);
         xhttp.open(request, url, false);
         xhttp.send(data);
     }

@@ -3,7 +3,7 @@ var fs = require('fs');
 const { start } = require('repl');
 
 var app = express()
-var port = 3000;
+var port = 3500;
 
 app.use(express.static('static'))
 app.use(express.static('test_case/failure'))

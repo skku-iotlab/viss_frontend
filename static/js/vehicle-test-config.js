@@ -25,15 +25,27 @@
 //[TODO] Please configure VISS_PROTOCOL, VISS_HOST, VISS_PORT to connect to your VISS server
 
 // - select ws:// or wss:// according to your VISS server
-var VISS_PROTOCOL = "ws://";  // or  "wss://";
-var VISS_HOST = "127.0.0.1";
-var VISS_PORT = "3001";
-//[FIXED]
-var VISS_SUBPROTO = "wvss1.0";
+var VISS_PROTOCOL = "https://";  // or  "https://";
+var VISS_PROTOCOL_WS = "wss://";  // or  "wss://";
+var VISS_HOST = "viss.cloud";
+var VISS_PORT = "8000";
+var VISS_PORT_SECURE_WS = "3001";
+var VISS_PORT_UNSECURE_WS = "3002";
 
 // - most tests uses this as URL to VISS server
 //[FIXED]
 var VISS_URL = VISS_PROTOCOL + VISS_HOST + ":" + VISS_PORT;
+var VISS_URL_TOKEN = VISS_PROTOCOL + VISS_HOST + ":" + VISS_PORT + "/api/token"
+
+var VISS_URL_SECURE_WS = VISS_PROTOCOL_WS + VISS_HOST + ":" + VISS_PORT_SECURE_WS;
+var VISS_URL_UNSECURE_WS = VISS_PROTOCOL_WS + VISS_HOST + ":" + VISS_PORT_UNSECURE_WS;
+
+var VISS_URL_TOKEN_WS = VISS_PROTOCOL_WS + VISS_HOST + ":" + VISS_PORT + "/api/token"
+
+//ws://127.0.0.1:3001
+
+var VISS_USERNAME = 'viss'
+var VISS_PASSWORD = 'viss'
 //ws://127.0.0.1:3001
 //subproto -> wvss1.0
 

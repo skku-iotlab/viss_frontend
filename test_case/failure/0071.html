@@ -75,10 +75,9 @@
         };
         // REST API 
         let request = "GET"
-        let protocol = "http"
-        let host = "127.0.0.1:8000"
+        let host = VISS_HOST + ":" + VISS_PORT
         let path = "Vehicle/Speeds"
-        let url = protocol + "://" + host + "/" + path
+        let url = VISS_URL + "/" + path
         let header = {}
         let params = 'filter={"type":"history", "value":"P2DT12H"}';
         if (params.length > 0) {
